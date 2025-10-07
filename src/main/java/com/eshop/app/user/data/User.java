@@ -1,12 +1,17 @@
 package com.eshop.app.user.data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-
+import com.eshop.app.address.data.Address;
+import com.eshop.app.order.data.Order;
+import com.eshop.app.review.data.Review;
+import com.eshop.app.wishlist.data.Wishlist;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -24,7 +29,6 @@ import lombok.Setter;
     })
 @Getter
 @Setter
-@NoArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,15 +53,42 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles;
 
-  // Password reset fields
-  private String resetToken;
-  
-  private LocalDateTime resetTokenExpiration;
+  private String fullName;
+  private String gender;
+  private Date dateOfBirth;
+  private String location;
+  private String alternateMobile;
+
+  @OneToMany(mappedBy = "user")
+  private List<Address> addresses;
+
+  @OneToMany(mappedBy = "user")
+  private List<Order> orders;
+
+  @OneToMany(mappedBy = "user")
+  private List<Wishlist> wishlists;
+
+  @OneToMany(mappedBy = "user")
+  private List<Review> reviews;
 
   public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
     this.password = password;
     this.roles = new HashSet<>();
+    this.addresses = new ArrayList<>();
+    this.orders = new ArrayList<>();
+    this.wishlists = new ArrayList<>();
+    this.reviews = new ArrayList<>();
   }
+
+  public User(){
+    this.roles = new HashSet<>();
+    this.addresses = new ArrayList<>();
+    this.orders = new ArrayList<>();
+    this.wishlists = new ArrayList<>();
+    this.reviews = new ArrayList<>();
+  }
+
+
 }
