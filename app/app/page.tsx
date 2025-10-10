@@ -1,5 +1,6 @@
 import { Banner } from "@/components/Banner";
 import { Category } from "@/components/Category";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { NewArrivals } from "@/components/NewArrivals";
@@ -16,7 +17,7 @@ export default function Home() {
       <Banner />
       <NewArrivals />
       <SocialMedia />
-      {/*<Footer /> */}
+      <Footer />
     </div>
   );
 }
