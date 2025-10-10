@@ -3,6 +3,7 @@ import { Category } from "@/components/Category";
 import Header from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { NewArrivals } from "@/components/NewArrivals";
+import { SocialMedia } from "@/components/SocialMedia";
 import { Trending } from "@/components/Trending";
 
 export default function Home() {
@@ -14,8 +15,8 @@ export default function Home() {
       <Trending />
       <Banner />
       <NewArrivals />
-      {/*<SocialMedia />
-      <Footer /> */}
+      <SocialMedia />
+      {/*<Footer /> */}
     </div>
   );
 }
