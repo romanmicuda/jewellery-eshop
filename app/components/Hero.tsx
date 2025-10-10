@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 
 export const Hero = () => {
     const [images, setImages] = useState<string[]>([
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=700&fit=crop",
-        "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&h=700&fit=crop",
-        "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=1200&h=700&fit=crop"
+        "index/hero/hero1.jpg",
+        "index/hero/hero2.jpg",
+        "index/hero/hero3.jpg"
     ]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [imageError, setImageError] = useState<boolean[]>([false, false, false]);
@@ -56,10 +56,6 @@ export const Hero = () => {
                                     background: `linear-gradient(135deg, oklch(0.48 0.08 48), oklch(0.70 0.045 25))` 
                                 }}
                             >
-                                <div className="text-primary-foreground text-center">
-                                    <h2 className="text-2xl font-bold mb-2">Luxury Collection {index + 1}</h2>
-                                    <p className="opacity-90">Exquisite Jewelry Awaits</p>
-                                </div>
                             </div>
                         ) : (
                             <img 
