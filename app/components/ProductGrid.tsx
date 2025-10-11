@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Product } from "../utils/types"
 import { ProductCard } from "./ProductCard"
+import Link from "next/link"
 
 
 export const ProductGrid = () => {
@@ -24,7 +25,9 @@ export const ProductGrid = () => {
     return (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
 
         {products.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <Link key={product.id} href={`/detail/${product.id}`}>
+                <ProductCard product={product} />
+            </Link>
         ))}
 
     </div>)

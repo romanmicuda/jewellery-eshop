@@ -6,3 +6,32 @@ export interface Product {
     price: number;
     imageUrl: string;
 }
+
+export interface ProductDetailType {
+    id: number;
+    name: string;
+    color: string;
+    price: number;
+    freeShipping: boolean;
+    image: string;
+    description: string;
+    reviews?: Review[];
+    customerFeedback?: CustomerFeedback;
+}
+
+export interface CustomerFeedback {
+    productRating: number;
+    totalReviews: number;
+    fiveStarPercentage: number;
+    fourStarPercentage: number;
+    threeStarPercentage: number;
+    twoStarPercentage: number;
+    oneStarPercentage: number;
+}
+
+export interface Review {
+    user: string;
+    title: string;
+    comment: string;
+    rating: number;
+}
