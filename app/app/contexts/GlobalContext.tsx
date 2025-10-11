@@ -27,7 +27,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     useEffect(() => {
         const validateToken = async () => {
             if ((window.location.pathname !== '/signin') && (window.location.pathname !== '/') && 
-            (window.location.pathname !== '/signup')) {
+            (window.location.pathname !== '/signup') && (window.location.pathname !== "/product-list")) {
                 const isValid = await checkToken();
                 if (!isValid) {
                     console.log("Token is not valid, logging out...");
