@@ -59,7 +59,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
             const response = await secureApi.post('/api/auth/signin', data);
             if (response.status === 200) {
                 api.setToken(response.data.token);
-                window.location.href = '/dashboard';
+                window.location.href = '/product-list';
             }
         } catch (error) {
             throw error;
