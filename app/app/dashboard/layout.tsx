@@ -1,6 +1,8 @@
 'use client'
 
 import { AppSidebar } from "@/components/AppSideBar";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function RootLayout({
@@ -9,12 +11,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
       <div>
-        <SidebarTrigger />
+        <Header />
         {children}
+        <Footer />
       </div>
-    </SidebarProvider>
   );
 }
