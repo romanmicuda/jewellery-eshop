@@ -1,6 +1,6 @@
-# Jewelry E-Shop
+# Jewellery E-Shop
 
-The Jewelry E-Shop is a sophisticated online platform designed to offer a seamless shopping experience for jewelry enthusiasts. It features a wide range of products, including earrings, necklaces, bracelets, and rings.
+The Hewellery E-Shop is a online platform designed to offer a seamless shopping experience for jewellery enthusiasts. It features a wide range of products, including earrings, necklaces, bracelets, and rings.
 
 ## Features
 
