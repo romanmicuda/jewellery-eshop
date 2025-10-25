@@ -1,11 +1,13 @@
 import { api, secureApi } from '@/utils/routes';
-import { UserType } from '@/utils/types';
+import { ChangePasswordRequest, UserType } from '@/utils/types';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { set } from 'react-hook-form';
 
 type DashboardState = {
     fetchUser: () => void
     user: UserType | null
     updateAccountInformation: (data: UserType) => void
+    changePassword: (data: ChangePasswordRequest) => void
 };
 
 const DashboardContext = createContext<DashboardState | undefined>(undefined);
@@ -31,9 +33,18 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const changePassword = async (data: ChangePasswordRequest) => {
+        try {
+            const response = await secureApi.put(`api/users/change-password`, { oldPassword: data.oldPassword, newPassword: data.newPassword});
+            console.log(data)
+            console.log('Password changed successfully');
+        } catch (error) {
+            console.error('Error changing password:', error);
+        }
+    }
 
     return (
-        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation }}>
+        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation, changePassword }}>
             {children}
         </DashboardContext.Provider>
     );

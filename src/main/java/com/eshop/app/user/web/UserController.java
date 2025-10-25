@@ -12,6 +12,7 @@ import com.eshop.app.user.data.User;
 import com.eshop.app.user.logic.AuthService;
 import com.eshop.app.user.logic.UserProviderService;
 import com.eshop.app.user.logic.UserService;
+import com.eshop.app.user.web.bodies.ChangePasswordRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UserResponse;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,5 +45,12 @@ public class UserController {
         User user = userService.updateAccountInformation(id, updatedUser);
         return ResponseEntity.ok(new UserResponse(user));
     }
-    
+
+    @PutMapping("/change-password")
+    public ResponseEntity<Void> changePassword(@RequestBody ChangePasswordRequest request) throws NotFoundException, IllegalOperationException {
+        User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
+        userService.changePassword(user, request);
+        return ResponseEntity.noContent().build();
+    }
+
 }

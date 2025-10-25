@@ -46,3 +46,9 @@ export interface UserType {
     location: string;
     alternateMobile: string;
 }
+
+export interface ChangePasswordRequest {
+    oldPassword: string;
+    newPassword: string;
+    retypePassword: string;
+}
