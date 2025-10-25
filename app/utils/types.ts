@@ -35,3 +35,13 @@ export interface Review {
     comment: string;
     rating: number;
 }
+
+export interface UserType {
+    fullName: string;
+    mobile: string;
+    email: string;
+    gender: string;
+    dateOfBirth: string;
+    location: string;
+    alternateMobile: string;
+}
