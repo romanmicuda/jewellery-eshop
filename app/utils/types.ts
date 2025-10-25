@@ -37,6 +37,7 @@ export interface Review {
 }
 
 export interface UserType {
+    id?: string;
     fullName: string;
     mobile: string;
     email: string;

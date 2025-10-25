@@ -7,19 +7,16 @@ import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 export default function page() {
-    const { fetchUser } = useDashboard();
+    const { fetchUser, user, updateAccountInformation } = useDashboard();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userData = await fetchUser();
-                reset(userData);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-        fetchData();
+        fetchUser();
     }, []);
+    
+    useEffect(() => {
+        if (user)
+            reset(user)
+    }, [user])
 
     const {
         register,
@@ -40,9 +37,7 @@ export default function page() {
 
     const onSubmit: SubmitHandler<UserType> = async (data) => {
         try {
-            console.log('Form data:', data);
-            // Here you would typically send the data to your API
-            // await updateProfile(data);
+            updateAccountInformation(data)
             alert('Profile updated successfully!');
         } catch (error) {
             console.error('Error updating profile:', error);

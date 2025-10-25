@@ -20,8 +20,9 @@ public class UserResponse {
     private String password;
     private String fullName;
     private String gender;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String location;
+    private String mobile;
     private String alternateMobile;
     private List<Address> addresses;
     private List<Order> orders;
@@ -33,11 +34,11 @@ public class UserResponse {
             this.id = user.getId();
             this.username = user.getUsername();
             this.email = user.getEmail();
-            this.password = user.getPassword();
             this.fullName = user.getFullName();
             this.gender = user.getGender();
-            this.dateOfBirth = user.getDateOfBirth();
+            this.dateOfBirth = user.getDateOfBirth() != null ? user.getDateOfBirth().toString().split(" ")[0] : null;
             this.location = user.getLocation();
+            this.mobile = user.getMobile();
             this.alternateMobile = user.getAlternateMobile();
             this.addresses = user.getAddresses();
             this.orders = user.getOrders();

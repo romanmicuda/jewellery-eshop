@@ -18,7 +18,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -57,7 +56,9 @@ public class User {
   private String gender;
   private Date dateOfBirth;
   private String location;
+  private String mobile;
   private String alternateMobile;
+
 
   @OneToMany(mappedBy = "user")
   private List<Address> addresses;
