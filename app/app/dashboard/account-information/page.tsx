@@ -14,8 +14,13 @@ export default function page() {
     }, []);
     
     useEffect(() => {
-        if (user)
-            reset(user)
+        if (user) {
+            const editedUser = {
+                ...user,
+                dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : ''
+            };
+            reset(editedUser);
+        }
     }, [user])
 
     const {

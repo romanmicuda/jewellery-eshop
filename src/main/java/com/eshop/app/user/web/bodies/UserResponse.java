@@ -20,7 +20,7 @@ public class UserResponse {
     private String password;
     private String fullName;
     private String gender;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String location;
     private String mobile;
     private String alternateMobile;
@@ -36,7 +36,7 @@ public class UserResponse {
             this.email = user.getEmail();
             this.fullName = user.getFullName();
             this.gender = user.getGender();
-            this.dateOfBirth = user.getDateOfBirth() != null ? user.getDateOfBirth().toString().split(" ")[0] : null;
+            this.dateOfBirth = user.getDateOfBirth();
             this.location = user.getLocation();
             this.mobile = user.getMobile();
             this.alternateMobile = user.getAlternateMobile();
