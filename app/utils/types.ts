@@ -45,10 +45,23 @@ export interface UserType {
     dateOfBirth: string;
     location: string;
     alternateMobile: string;
+    shippingAddress?: AddressRequest;
+    billingAddress?: AddressRequest;
+    isActiveNewsletterSubscriber: boolean;
 }
 
 export interface ChangePasswordRequest {
     oldPassword: string;
     newPassword: string;
     retypePassword: string;
+}
+
+export interface AddressRequest {
+    streetAddress: string;
+    city: string;
+    zipCode: string;
+}
+
+export interface NewsletterPreferences {
+    subscribed: boolean;
 }

@@ -8,6 +8,7 @@ import com.eshop.app.address.data.Address;
 import com.eshop.app.order.data.Order;
 import com.eshop.app.review.data.Review;
 import com.eshop.app.user.data.User;
+import com.eshop.app.user.data.UserAddress;
 import com.eshop.app.wishlist.data.Wishlist;
 
 import lombok.Data;
@@ -28,6 +29,9 @@ public class UserResponse {
     private List<Order> orders;
     private List<Wishlist> wishlists;
     private List<Review> reviews;
+    private UserAddress shippingAddress;
+    private UserAddress billingAddress;
+    private boolean isActiveNewsletterSubscriber;
 
     public UserResponse(User user) {
         if (user != null) {
@@ -44,6 +48,9 @@ public class UserResponse {
             this.orders = user.getOrders();
             this.wishlists = user.getWishlists();
             this.reviews = user.getReviews();
+            this.shippingAddress = user.getShippingAddress();
+            this.billingAddress = user.getBillingAddress();
+            this.isActiveNewsletterSubscriber = user.isActiveNewsletterSubscriber();
         }
     }
 }

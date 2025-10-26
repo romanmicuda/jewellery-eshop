@@ -58,6 +58,11 @@ public class User {
   private String location;
   private String mobile;
   private String alternateMobile;
+  @OneToOne(cascade = CascadeType.ALL)
+  private UserAddress billingAddress;
+  @OneToOne(cascade = CascadeType.ALL)
+  private UserAddress shippingAddress;
+  private boolean isActiveNewsletterSubscriber;
 
 
   @OneToMany(mappedBy = "user")
@@ -81,6 +86,9 @@ public class User {
     this.orders = new ArrayList<>();
     this.wishlists = new ArrayList<>();
     this.reviews = new ArrayList<>();
+    this.isActiveNewsletterSubscriber = false;
+    this.billingAddress = new UserAddress();
+    this.shippingAddress = new UserAddress();
   }
 
   public User(){
@@ -89,6 +97,9 @@ public class User {
     this.orders = new ArrayList<>();
     this.wishlists = new ArrayList<>();
     this.reviews = new ArrayList<>();
+    this.isActiveNewsletterSubscriber = false;
+    this.billingAddress = new UserAddress();
+    this.shippingAddress = new UserAddress();
   }
 
 

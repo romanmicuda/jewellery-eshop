@@ -12,6 +12,7 @@ import com.eshop.app.user.data.User;
 import com.eshop.app.user.data.UserRepository;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
+import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,5 +45,22 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
-    
+
+    @Override
+    public User updateShippingAddress(User user, UpdateAddressRequest request) {
+        user.getShippingAddress().setStreetAddress(request.getStreetAddress());
+        user.getShippingAddress().setCity(request.getCity());
+        user.getShippingAddress().setZipCode(request.getZipCode());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateBillingAddress(User user, UpdateAddressRequest request) {
+        user.getBillingAddress().setStreetAddress(request.getStreetAddress());
+        user.getBillingAddress().setCity(request.getCity());
+        user.getBillingAddress().setZipCode(request.getZipCode());
+        return userRepository.save(user);
+
+    }
+
 }

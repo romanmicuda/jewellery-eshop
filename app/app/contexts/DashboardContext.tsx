@@ -1,5 +1,5 @@
 import { api, secureApi } from '@/utils/routes';
-import { ChangePasswordRequest, UserType } from '@/utils/types';
+import { ChangePasswordRequest, UserType, AddressRequest } from '@/utils/types';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { set } from 'react-hook-form';
 
@@ -8,6 +8,8 @@ type DashboardState = {
     user: UserType | null
     updateAccountInformation: (data: UserType) => void
     changePassword: (data: ChangePasswordRequest) => void
+    updateShippingAddress: (data: AddressRequest) => void
+    updateBillingAddress: (data: AddressRequest) => void
 };
 
 const DashboardContext = createContext<DashboardState | undefined>(undefined);
@@ -36,15 +38,35 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     const changePassword = async (data: ChangePasswordRequest) => {
         try {
             const response = await secureApi.put(`api/users/change-password`, { oldPassword: data.oldPassword, newPassword: data.newPassword});
-            console.log(data)
             console.log('Password changed successfully');
         } catch (error) {
             console.error('Error changing password:', error);
         }
     }
 
+    const updateShippingAddress = async (data: AddressRequest) => {
+        try {
+            const response = await secureApi.put(`api/users/shipping-address`, data);
+            setUser(response.data);
+            console.log('Shipping address updated successfully');
+        } catch (error) {
+            console.error('Error updating shipping address:', error);
+        }
+    }
+
+    const updateBillingAddress = async (data: AddressRequest) => {
+        try {
+            const response = await secureApi.put(`api/users/billing-address`, data);
+            console.log(data)
+            setUser(response.data);
+            console.log('Billing address updated successfully');
+        } catch (error) {
+            console.error('Error updating billing address:', error);
+        }
+    }
+
     return (
-        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation, changePassword }}>
+        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation, changePassword, updateShippingAddress, updateBillingAddress }}>
             {children}
         </DashboardContext.Provider>
     );
