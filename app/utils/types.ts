@@ -47,7 +47,7 @@ export interface UserType {
     alternateMobile: string;
     shippingAddress?: AddressRequest;
     billingAddress?: AddressRequest;
-    isActiveNewsletterSubscriber: boolean;
+    activeNewsletterSubscriber: boolean;
 }
 
 export interface ChangePasswordRequest {
@@ -62,6 +62,6 @@ export interface AddressRequest {
     zipCode: string;
 }
 
-export interface NewsletterPreferences {
+export interface NewsletterPreferencesRequest {
     subscribed: boolean;
 }

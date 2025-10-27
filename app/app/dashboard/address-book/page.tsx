@@ -2,7 +2,10 @@
 
 import { useDashboard } from "@/app/contexts/DashboardContext";
 import { DashboardNavigationTabs } from "@/components/DashboardNavigationTabs";
-import { ChangePasswordRequest, AddressRequest, NewsletterPreferences } from "@/utils/types";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ChangePasswordRequest, AddressRequest, NewsletterPreferencesRequest } from "@/utils/types";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -37,16 +40,30 @@ export default function page() {
 }
 
 const NewsletterPreferencesForm = () => {
+
+    const { updateNewsletterPreferences, user } = useDashboard();
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-        reset
-    } = useForm<NewsletterPreferences>();
+        reset,
+        watch,
+        setValue
+    } = useForm<NewsletterPreferencesRequest>();
 
-    const onSubmit = async (data: NewsletterPreferences) => {
+    useEffect(() => {
+        if (user) {
+            reset({
+                'subscribed': user.activeNewsletterSubscriber
+            })
+        }
+    },[user, reset])
+
+    const subscribed = watch("subscribed");
+
+    const onSubmit = async (data: NewsletterPreferencesRequest) => {
         try {
-            console.log("Newsletter preferences:", data);
+            updateNewsletterPreferences(data)
             alert("Newsletter preferences updated successfully!");
         } catch (error) {
             console.error("Error updating newsletter preferences:", error);
@@ -67,17 +84,16 @@ const NewsletterPreferencesForm = () => {
             <div className="bg-neutral-50 p-6 rounded-lg border border-neutral-200">
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
                     <div className="flex items-center space-x-4">
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <span className="text-neutral-700">Subscribe to our newsletter</span>
-                            <input
-                                type="checkbox"
-                                {...register("subscribed")}
-                                className="sr-only peer"
+                        <div className="flex items-center space-x-2">
+                            <Switch
+                                id="subscribed"
+                                checked={subscribed || false}
+                                onCheckedChange={(checked) => setValue("subscribed", checked)}
                             />
-                            <div className="w-11 h-6 bg-neutral-300 rounded-full peer peer-checked:bg-primary-600 transition-colors duration-200 relative">
-                                <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform duration-200"></div>
-                            </div>
-                        </label>
+                            <Label htmlFor="subscribed" className="text-neutral-700 cursor-pointer">
+                                Subscribe to our newsletter
+                            </Label>
+                        </div>
                     </div>
                     <div className="flex justify-end gap-3">
                         <button

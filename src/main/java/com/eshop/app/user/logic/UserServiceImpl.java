@@ -13,6 +13,7 @@ import com.eshop.app.user.data.UserRepository;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
+import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -61,6 +62,12 @@ public class UserServiceImpl implements UserService {
         user.getBillingAddress().setZipCode(request.getZipCode());
         return userRepository.save(user);
 
+    }
+
+    @Override
+    public User updateNewsletterPreferences(User user, UpdateNewsletterPreferencesRequest request) {
+        user.setActiveNewsletterSubscriber(request.isSubscribed());
+        return userRepository.save(user);
     }
 
 }

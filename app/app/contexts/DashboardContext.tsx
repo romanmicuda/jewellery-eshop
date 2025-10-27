@@ -1,5 +1,5 @@
 import { api, secureApi } from '@/utils/routes';
-import { ChangePasswordRequest, UserType, AddressRequest } from '@/utils/types';
+import { ChangePasswordRequest, UserType, AddressRequest, NewsletterPreferencesRequest } from '@/utils/types';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { set } from 'react-hook-form';
 
@@ -10,6 +10,7 @@ type DashboardState = {
     changePassword: (data: ChangePasswordRequest) => void
     updateShippingAddress: (data: AddressRequest) => void
     updateBillingAddress: (data: AddressRequest) => void
+    updateNewsletterPreferences: (data: NewsletterPreferencesRequest) => void
 };
 
 const DashboardContext = createContext<DashboardState | undefined>(undefined);
@@ -64,9 +65,18 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
             console.error('Error updating billing address:', error);
         }
     }
+    const updateNewsletterPreferences = async (data: NewsletterPreferencesRequest) => {
+        try {
+            const response = await secureApi.put(`api/users/newsletter-preferences`, data);
+            setUser(response.data);
+            console.log('Newsletter preferences updated successfully');
+        } catch (error) {
+            console.error('Error updating newsletter preferences:', error);
+        }
+    }
 
     return (
-        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation, changePassword, updateShippingAddress, updateBillingAddress }}>
+        <DashboardContext.Provider value={{ fetchUser, user, updateAccountInformation, changePassword, updateShippingAddress, updateBillingAddress, updateNewsletterPreferences }}>
             {children}
         </DashboardContext.Provider>
     );

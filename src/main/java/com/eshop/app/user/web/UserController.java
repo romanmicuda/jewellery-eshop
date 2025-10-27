@@ -15,6 +15,7 @@ import com.eshop.app.user.logic.UserService;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
+import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
 import com.eshop.app.user.web.bodies.UserResponse;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,16 +59,24 @@ public class UserController {
     public ResponseEntity<UserResponse> updateShippingAddress(@RequestBody UpdateAddressRequest request)
             throws NotFoundException {
         User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
-        User updateUser = userService.updateShippingAddress(user, request);
-        return ResponseEntity.ok(new UserResponse(updateUser));
+        User updatedUser = userService.updateShippingAddress(user, request);
+        return ResponseEntity.ok(new UserResponse(updatedUser));
     }
 
     @PutMapping("/billing-address")
     public ResponseEntity<UserResponse> updateBillingAddress(@RequestBody UpdateAddressRequest request)
             throws NotFoundException {
         User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
-        User updateUser = userService.updateBillingAddress(user, request);
-        return ResponseEntity.ok(new UserResponse(updateUser));
+        User updatedUser = userService.updateBillingAddress(user, request);
+        return ResponseEntity.ok(new UserResponse(updatedUser));
+    }
+
+    @PutMapping("/newsletter-preferences")
+    public ResponseEntity<UserResponse> updateNewsletterPreferences(@RequestBody UpdateNewsletterPreferencesRequest request) throws NotFoundException {
+        User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
+        User updatedUser = userService.updateNewsletterPreferences(user, request);
+        return ResponseEntity.ok(new UserResponse(updatedUser));
+
     }
 
 }
