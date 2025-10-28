@@ -35,3 +35,33 @@ export interface Review {
     comment: string;
     rating: number;
 }
+
+export interface UserType {
+    id?: string;
+    fullName: string;
+    mobile: string;
+    email: string;
+    gender: string;
+    dateOfBirth: string;
+    location: string;
+    alternateMobile: string;
+    shippingAddress?: AddressRequest;
+    billingAddress?: AddressRequest;
+    activeNewsletterSubscriber: boolean;
+}
+
+export interface ChangePasswordRequest {
+    oldPassword: string;
+    newPassword: string;
+    retypePassword: string;
+}
+
+export interface AddressRequest {
+    streetAddress: string;
+    city: string;
+    zipCode: string;
+}
+
+export interface NewsletterPreferencesRequest {
+    subscribed: boolean;
+}

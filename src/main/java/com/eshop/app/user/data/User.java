@@ -18,7 +18,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -57,7 +56,14 @@ public class User {
   private String gender;
   private Date dateOfBirth;
   private String location;
+  private String mobile;
   private String alternateMobile;
+  @OneToOne(cascade = CascadeType.ALL)
+  private UserAddress billingAddress;
+  @OneToOne(cascade = CascadeType.ALL)
+  private UserAddress shippingAddress;
+  private boolean isActiveNewsletterSubscriber;
+
 
   @OneToMany(mappedBy = "user")
   private List<Address> addresses;
@@ -80,6 +86,9 @@ public class User {
     this.orders = new ArrayList<>();
     this.wishlists = new ArrayList<>();
     this.reviews = new ArrayList<>();
+    this.isActiveNewsletterSubscriber = false;
+    this.billingAddress = new UserAddress();
+    this.shippingAddress = new UserAddress();
   }
 
   public User(){
@@ -88,6 +97,9 @@ public class User {
     this.orders = new ArrayList<>();
     this.wishlists = new ArrayList<>();
     this.reviews = new ArrayList<>();
+    this.isActiveNewsletterSubscriber = false;
+    this.billingAddress = new UserAddress();
+    this.shippingAddress = new UserAddress();
   }
 
 

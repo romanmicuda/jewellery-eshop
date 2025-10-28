@@ -43,12 +43,6 @@ const featuredCollections: { title: string; href: string; description: string }[
     description:
       "Sophisticated pearl earrings for every occasion and style.",
   },
-  {
-    title: "Gift Sets",
-    href: "/collections/gift-sets",
-    description:
-      "Beautifully curated jewelry sets perfect for special occasions.",
-  },
 ]
 
 export function NavigationMenuDemo() {
@@ -104,11 +98,6 @@ export function NavigationMenuDemo() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/brands">Brands</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link href="/earrings">Earrings</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -127,9 +116,28 @@ export function NavigationMenuDemo() {
             <Link href="/bracelets">Bracelets</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+
+                <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/gifts">Gifts</Link>
+            <Link href="/pendants">Pendants</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+                <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/anklets">Anklets</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+                <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/cufflinks">Cufflinks</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+                <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/brooches">Brooches</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

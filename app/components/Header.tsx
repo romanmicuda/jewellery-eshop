@@ -75,7 +75,7 @@ const Logo = () => {
 const Account = () => {
     return (
         <Link 
-            href="/account" 
+            href="/dashboard/account-information" 
             className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
             aria-label="Account"
         >
