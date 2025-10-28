@@ -9,6 +9,8 @@ import com.eshop.app.review.data.Review;
 import com.eshop.app.wishlist.data.Wishlist;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,13 +28,18 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Jewellery category;
     private String brand;
-    private String color;
-    private String size;
+    @Enumerated(EnumType.STRING)
+    private Material material;
+    @Enumerated(EnumType.STRING)
+    private Gemstone gemstone;
+    @Enumerated(EnumType.STRING)
+    private Size size;
     private Integer stockQuantity;
     private Double discountPercentage;
-    private String imageUrl;
+    private String image;
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails;
