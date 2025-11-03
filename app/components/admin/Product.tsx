@@ -1,5 +1,6 @@
 'use client'
 
+import { useAdmin } from '@/app/contexts/AdminContext';
 import React, { useState, useEffect } from 'react';
 
 // Enums matching your Java enums
@@ -97,6 +98,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const {uploadImage} = useAdmin()
 
   useEffect(() => {
     if (product) {
@@ -208,15 +211,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
         const preview = await previewPromise;
         newPreviews.push(preview);
 
-        // Simulate upload (replace with actual upload logic)
-        const formDataUpload = new FormData();
-        formDataUpload.append('image', file);
-        
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // In real implementation, get URL from upload service
-        const imageUrl = `uploads/${file.name}`;
+        // Use uploadImage if available, otherwise fallback to a local placeholder URL
+        const imageUrl = uploadImage
+          ? await uploadImage(file)
+          : `uploads/${file.name}`;
+
         newImageUrls.push(imageUrl);
       }
 

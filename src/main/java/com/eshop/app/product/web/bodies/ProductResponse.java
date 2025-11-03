@@ -29,7 +29,7 @@ public class ProductResponse {
         this.category = product.getCategory().name();
         this.brand = product.getBrand();
         this.material = product.getMaterial().name();
-        this.gemstone = product.getGemstone().name();
+        this.gemstone = product.getGemstone() != null ? product.getGemstone().name() : null;
         this.size = product.getSize().name();
         this.stockQuantity = product.getStockQuantity();
         this.discountPercentage = product.getDiscountPercentage();

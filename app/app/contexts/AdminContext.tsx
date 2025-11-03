@@ -9,6 +9,7 @@ type AdminContextValue = {
     addProduct?: (product: Product) => void;
     updateProduct?: (product: Product) => void;
     deleteProduct?: (productId: string) => void;
+    uploadImage?: (file: File) => Promise<string>;
 };
 
 const AdminContext = createContext<AdminContextValue | undefined>(undefined);
@@ -43,10 +44,23 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const uploadImage = async (file: File): Promise<string> => {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const response = await secureApi.post('/api/uploads/images', formData);
+            return response.data.imageUrl;
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    };
+
     const value: AdminContextValue = {
         addProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        uploadImage
     };
 
     return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;

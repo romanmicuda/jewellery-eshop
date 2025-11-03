@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(Jewellery.valueOf(request.getCategory()));
         product.setBrand(request.getBrand());
         product.setMaterial(Material.valueOf(request.getMaterial()));
-        product.setGemstone(Gemstone.valueOf(request.getGemstone()));
+        product.setGemstone(request.getGemstone() != null ? Gemstone.valueOf(request.getGemstone()) : null);
         product.setSize(Size.valueOf(request.getSize()));
         product.setStockQuantity(request.getStockQuantity());
         product.setDiscountPercentage(request.getDiscountPercentage());
