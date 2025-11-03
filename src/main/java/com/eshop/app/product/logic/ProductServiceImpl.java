@@ -12,6 +12,7 @@ import com.eshop.app.product.data.Product;
 import com.eshop.app.product.data.ProductRepository;
 import com.eshop.app.product.data.Size;
 import com.eshop.app.product.web.bodies.CreateProductRequest;
+import com.eshop.app.product.web.bodies.UpdateProductRequest;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,6 +31,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(CreateProductRequest request) {
         Product product = new Product();
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setCategory(Jewellery.valueOf(request.getCategory()));
+        product.setBrand(request.getBrand());
+        product.setMaterial(Material.valueOf(request.getMaterial()));
+        product.setGemstone(request.getGemstone() != null ? Gemstone.valueOf(request.getGemstone()) : null);
+        product.setSize(Size.valueOf(request.getSize()));
+        product.setStockQuantity(request.getStockQuantity());
+        product.setDiscountPercentage(request.getDiscountPercentage());
+        product.setImages(request.getImages());
+
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product updateProduct(UUID id, UpdateProductRequest request) throws NotFoundException {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());

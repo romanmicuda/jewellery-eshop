@@ -144,6 +144,25 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                         >
                             Add to Wishlist
                         </button>
+                        <button
+                            className="w-full py-4 px-6 rounded-lg text-lg font-semibold border transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                            style={{
+                                backgroundColor: colors.neutral[50],
+                                color: colors.primary[600],
+                                borderColor: colors.primary[300]
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = colors.primary[50];
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = colors.neutral[50];
+                            }}
+                            onClick={() => {
+                                window.location.href = `/admin/product/edit/${detail.id}`;
+                            }}
+                        >
+                            Edit Product
+                        </button>
                     </div>
 
 

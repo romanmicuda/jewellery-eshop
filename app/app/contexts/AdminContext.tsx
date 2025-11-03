@@ -10,6 +10,8 @@ type AdminContextValue = {
     updateProduct?: (product: Product) => void;
     deleteProduct?: (productId: string) => void;
     uploadImage?: (file: File) => Promise<string>;
+    fetchProduct?: (productId: string) => void;
+    product: Product | null;
 };
 
 const AdminContext = createContext<AdminContextValue | undefined>(undefined);
@@ -56,10 +58,22 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const fetchProduct = async (productId: string) => {
+        try {
+            const response = await secureApi.get(`/api/products/${productId}`);
+            setProduct(response.data);
+        } catch (error) {
+            console.error('Error fetching product:', error);
+            return null;
+        }
+    };
+
     const value: AdminContextValue = {
         addProduct,
         updateProduct,
         deleteProduct,
+        fetchProduct,
+        product,
         uploadImage
     };
 
