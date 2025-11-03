@@ -39,7 +39,7 @@ public class Product {
     private Size size;
     private Integer stockQuantity;
     private Double discountPercentage;
-    private String image;
+    private List<String> images;
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails;
@@ -54,5 +54,6 @@ public class Product {
         this.orderDetails = new ArrayList<>();
         this.wishlists = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.images = new ArrayList<>();
     }
 }
