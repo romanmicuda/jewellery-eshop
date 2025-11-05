@@ -1,7 +1,7 @@
-import { ProductDetailType } from "@/utils/types"
+import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
 
-const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
+const ProductDetail = ({detail}: {detail: Product}) => {
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -17,7 +17,7 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                             }}
                         >
                             <img 
-                                src={detail.image} 
+                                src={`${process.env.NEXT_PUBLIC_URL}${detail.images?.[0]}`} 
                                 alt={detail.name}
                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
@@ -36,7 +36,7 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                                 }}
                             >
                                 <img 
-                                    src={detail.image} 
+                                    src={detail.images ? `${process.env.NEXT_PUBLIC_URL}${detail.images[index]}` : ''}
                                     alt={`${detail.name} view ${index + 1}`}
                                     className="w-full h-full object-cover"
                                 />
@@ -63,37 +63,8 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                             >
                                 ${detail.price.toLocaleString()}
                             </p>
-                            
-                            {detail.freeShipping && (
-                                <span 
-                                    className="px-3 py-1 rounded-full text-sm font-medium"
-                                    style={{ 
-                                        backgroundColor: colors.accent[100],
-                                        color: colors.accent[700]
-                                    }}
-                                >
-                                    Free Shipping
-                                </span>
-                            )}
                         </div>
                     </div>
-
-
-                    <div className="space-y-2">
-                        <p 
-                            className="text-sm font-medium"
-                            style={{ color: colors.neutral[600] }}
-                        >
-                            Color
-                        </p>
-                        <p 
-                            className="text-lg"
-                            style={{ color: colors.neutral[800] }}
-                        >
-                            {detail.color}
-                        </p>
-                    </div>
-
 
                     <div className="space-y-4">
                         <h3 

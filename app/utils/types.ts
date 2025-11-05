@@ -11,6 +11,8 @@ export interface Product {
     stockQuantity: number;
     discountPercentage: number;
     images: string[];
+    reviews?: Review[];
+    customerFeedback?: CustomerFeedback;
 }
 
 export interface FilterState {
@@ -28,18 +30,6 @@ export interface FilterState {
 export interface SortState {
     sortBy: string;
     sortDir: 'asc' | 'desc';
-}
-
-export interface ProductDetailType {
-    id: number;
-    name: string;
-    color: string;
-    price: number;
-    freeShipping: boolean;
-    image: string;
-    description: string;
-    reviews?: Review[];
-    customerFeedback?: CustomerFeedback;
 }
 
 export interface CustomerFeedback {

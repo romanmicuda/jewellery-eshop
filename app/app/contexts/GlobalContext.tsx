@@ -13,7 +13,9 @@ interface GlobalContextType {
     logout: () => void;
     checkToken: () => Promise<boolean>;
     fetchProducts: (filters?: FilterState, sort?: SortState, page?: number, size?: number) => void;
+    fetchProduct: (id: string) => void;
     products: Product[];
+    product: Product | null;
     totalPages: number;
     currentPage: number;
     pageSize: number;
@@ -42,6 +44,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(12);
     const [totalElements, setTotalElements] = useState<number>(0);
+    const [product, setProduct ] = useState<Product | null>(null);
     const [filters, setFilters] = useState<FilterState>({
         categories: [],
         materials: [],
@@ -219,6 +222,15 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         fetchProducts(filters, sort, 0, size);
     };
 
+    const fetchProduct = async (id: string) => {
+        try {
+            const response = await secureApi.get(`/api/products/${id}`);
+            setProduct(response.data)
+        } catch (error) {
+            console.error('Error fetching product:', error);
+        }
+    }
+
 
     // Provide the context value
     const value: GlobalContextType = {
@@ -242,7 +254,9 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         goToPage,
         nextPage,
         previousPage,
-        changePageSize
+        changePageSize,
+        fetchProduct,
+        product,
     };
 
     return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
