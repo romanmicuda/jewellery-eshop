@@ -18,8 +18,8 @@ INSERT INTO user_roles(role_id, user_id) VALUES(
 
 -- Insert 30 jewelry products
 INSERT INTO product (product_id, name, description, price, category, brand, material, gemstone, size, stock_quantity, discount_percentage, images) VALUES
-(gen_random_uuid(), 'Diamond Engagement Ring', 'Elegant diamond solitaire ring with platinum band', 2500.00, 'RINGS', 'Tiffany & Co', 'PLATINUM', 'DIAMOND', 'SIZE_7', 15, 10.0, ARRAY['diamond_ring.jpg']),
-(gen_random_uuid(), 'Gold Pearl Necklace', 'Classic 18k gold necklace with cultured pearls', 890.00, 'NECKLACES', 'Mikimoto', 'GOLD', null, 'ONE_SIZE', 25, 5.0, ARRAY['gold_pearl_necklace.jpg']),
+(gen_random_uuid(), 'Diamond Engagement Ring', 'Elegant diamond solitaire ring with platinum band', 2500.00, 'RINGS', 'Tiffany & Co', 'PLATINUM', 'DIAMOND', 'SIZE_7', 15, 10.0, ARRAY['diamond_ring.png']),
+(gen_random_uuid(), 'Gold Pearl Necklace', 'Classic 18k gold necklace with cultured pearls', 890.00, 'NECKLACES', 'Mikimoto', 'GOLD', null, 'ONE_SIZE', 25, 5.0, ARRAY['gold_pearl_necklace.png']),
 (gen_random_uuid(), 'Ruby Drop Earrings', 'Stunning ruby drop earrings in white gold setting', 1200.00, 'EARRINGS', 'Cartier', 'GOLD', 'RUBY', 'ONE_SIZE', 12, 15.0, ARRAY['ruby_earrings.jpg']),
 (gen_random_uuid(), 'Silver Chain Bracelet', 'Modern sterling silver chain bracelet', 150.00, 'BRACELETS', 'Pandora', 'SILVER', null, 'MEDIUM', 40, 0.0, ARRAY['silver_bracelet.jpg']),
 (gen_random_uuid(), 'Sapphire Pendant', 'Blue sapphire pendant with diamond accents', 750.00, 'PENDANTS', 'Blue Nile', 'GOLD', 'SAPPHIRE', 'ONE_SIZE', 20, 8.0, ARRAY['sapphire_pendant.jpg']),
