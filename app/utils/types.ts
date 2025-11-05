@@ -1,10 +1,33 @@
 export interface Product {
-    id: number;
+    id: string;
     name: string;
-    categories?: string[];
     description: string;
     price: number;
-    imageUrl: string;
+    category: string;
+    brand: string;
+    material: string;
+    gemstone?: string;
+    size: string;
+    stockQuantity: number;
+    discountPercentage: number;
+    images: string[];
+}
+
+export interface FilterState {
+    categories: string[];
+    materials: string[];
+    gemstones: string[];
+    sizes: string[];
+    priceRange: {
+        min?: number;
+        max?: number;
+    };
+    brand?: string;
+}
+
+export interface SortState {
+    sortBy: string;
+    sortDir: 'asc' | 'desc';
 }
 
 export interface ProductDetailType {

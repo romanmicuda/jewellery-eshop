@@ -7,7 +7,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
         <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer">
             <div className="relative overflow-hidden bg-gradient-to-br from-secondary-50 to-secondary-100">
                 <img 
-                    src={product.imageUrl} 
+                    src={product.images?.[0] || '/placeholder-product.jpg'} 
                     alt={product.name}
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />

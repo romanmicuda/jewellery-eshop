@@ -1,5 +1,35 @@
 
+'use client'
+
+import { useGlobalContext } from "@/app/contexts/GlobalContext";
+
 export const FiltersSidebar = () => {
+    const { filters, updateFilters, clearFilters } = useGlobalContext();
+    
+    const handleCategoryChange = (category: string, checked: boolean) => {
+        // Only allow single selection for category
+        const updatedCategories = checked ? [category.toUpperCase()] : [];
+        updateFilters({ categories: updatedCategories });
+    };
+
+    const handleMaterialChange = (material: string, checked: boolean) => {
+        // Only allow single selection for material
+        const updatedMaterials = checked ? [material.toUpperCase()] : [];
+        updateFilters({ materials: updatedMaterials });
+    };
+
+    const handleGemstoneChange = (gemstone: string, checked: boolean) => {
+        // Only allow single selection for gemstone
+        const updatedGemstones = checked ? [gemstone.toUpperCase()] : [];
+        updateFilters({ gemstones: updatedGemstones });
+    };
+
+    const handleSizeChange = (size: string, checked: boolean) => {
+        // Only allow single selection for size
+        const updatedSizes = checked ? [size] : [];
+        updateFilters({ sizes: updatedSizes });
+    };
+
     const category = "All Products";
     return (
         <div className="w-64 bg-card border-r border-border p-6 h-full">
@@ -15,91 +45,63 @@ export const FiltersSidebar = () => {
                 <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="rings" 
-                            name="rings" 
+                            name="category" 
                             value="rings"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.categories.includes('RINGS')}
+                            onChange={(e) => handleCategoryChange('rings', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Rings</span>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="necklaces" 
-                            name="necklaces" 
+                            name="category" 
                             value="necklaces"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.categories.includes('NECKLACES')}
+                            onChange={(e) => handleCategoryChange('necklaces', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Necklaces</span>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="earrings" 
-                            name="earrings" 
+                            name="category" 
                             value="earrings"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.categories.includes('EARRINGS')}
+                            onChange={(e) => handleCategoryChange('earrings', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Earrings</span>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="bracelets" 
-                            name="bracelets" 
+                            name="category" 
                             value="bracelets"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.categories.includes('BRACELETS')}
+                            onChange={(e) => handleCategoryChange('bracelets', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Bracelets</span>
                     </label>
-                </div>
-            </div>
-
-            <div className="mb-8">
-                <h2 className="text-lg font-semibold text-foreground mb-4 pb-2 border-b border-border">
-                    Price Range
-                </h2>
-                <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
-                            id="price1" 
-                            name="price1" 
-                            value="0-100"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            type="radio" 
+                            id="pendants" 
+                            name="category" 
+                            value="pendants"
+                            checked={filters.categories.includes('PENDANTS')}
+                            onChange={(e) => handleCategoryChange('pendants', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">$0 - $100</span>
-                    </label>
-                    <label className="flex items-center space-x-3 cursor-pointer group">
-                        <input 
-                            type="checkbox" 
-                            id="price2" 
-                            name="price2" 
-                            value="101-500"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                        />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">$101 - $500</span>
-                    </label>
-                    <label className="flex items-center space-x-3 cursor-pointer group">
-                        <input 
-                            type="checkbox" 
-                            id="price3" 
-                            name="price3" 
-                            value="501-1000"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                        />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">$501 - $1,000</span>
-                    </label>
-                    <label className="flex items-center space-x-3 cursor-pointer group">
-                        <input 
-                            type="checkbox" 
-                            id="price4" 
-                            name="price4" 
-                            value="1000+"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                        />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">$1,000 and above</span>
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Pendants</span>
                     </label>
                 </div>
             </div>
@@ -111,11 +113,13 @@ export const FiltersSidebar = () => {
                 <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="gold" 
-                            name="gold" 
+                            name="material" 
                             value="gold"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.materials.includes('GOLD')}
+                            onChange={(e) => handleMaterialChange('gold', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.78 0.12 58)'}}></span>
@@ -124,11 +128,13 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="silver" 
-                            name="silver" 
+                            name="material" 
                             value="silver"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.materials.includes('SILVER')}
+                            onChange={(e) => handleMaterialChange('silver', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.85 0.02 200)'}}></span>
@@ -137,11 +143,13 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="platinum" 
-                            name="platinum" 
+                            name="material" 
                             value="platinum"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.materials.includes('PLATINUM')}
+                            onChange={(e) => handleMaterialChange('platinum', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.88 0.01 240)'}}></span>
@@ -150,15 +158,17 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
-                            id="rose-gold" 
-                            name="rose-gold" 
-                            value="rose-gold"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            type="radio" 
+                            id="stainless-steel" 
+                            name="material" 
+                            value="stainless-steel"
+                            checked={filters.materials.includes('STAINLESS_STEEL')}
+                            onChange={(e) => handleMaterialChange('stainless_steel', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
-                            <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.70 0.045 25)'}}></span>
-                            Rose Gold
+                            <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.60 0.01 240)'}}></span>
+                            Stainless Steel
                         </span>
                     </label>
                 </div>
@@ -171,11 +181,13 @@ export const FiltersSidebar = () => {
                 <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="diamond" 
-                            name="diamond" 
+                            name="gemstone" 
                             value="diamond"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.gemstones.includes('DIAMOND')}
+                            onChange={(e) => handleGemstoneChange('diamond', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.95 0.02 240)'}}></span>
@@ -184,11 +196,13 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="ruby" 
-                            name="ruby" 
+                            name="gemstone" 
                             value="ruby"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.gemstones.includes('RUBY')}
+                            onChange={(e) => handleGemstoneChange('ruby', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.55 0.22 15)'}}></span>
@@ -197,11 +211,13 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="emerald" 
-                            name="emerald" 
+                            name="gemstone" 
                             value="emerald"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.gemstones.includes('EMERALD')}
+                            onChange={(e) => handleGemstoneChange('emerald', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.55 0.18 140)'}}></span>
@@ -210,11 +226,13 @@ export const FiltersSidebar = () => {
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
+                            type="radio" 
                             id="sapphire" 
-                            name="sapphire" 
+                            name="gemstone" 
                             value="sapphire"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            checked={filters.gemstones.includes('SAPPHIRE')}
+                            onChange={(e) => handleGemstoneChange('sapphire', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors flex items-center">
                             <span className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: 'oklch(0.45 0.18 240)'}}></span>
@@ -231,35 +249,50 @@ export const FiltersSidebar = () => {
                 <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
-                            id="size5-6" 
-                            name="size5-6" 
-                            value="5-6"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            type="radio" 
+                            id="size6" 
+                            name="size" 
+                            value="SIZE_6"
+                            checked={filters.sizes.includes('SIZE_6')}
+                            onChange={(e) => handleSizeChange('SIZE_6', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 5-6</span>
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 6</span>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
-                            id="size7-8" 
-                            name="size7-8" 
-                            value="7-8"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            type="radio" 
+                            id="size7" 
+                            name="size" 
+                            value="SIZE_7"
+                            checked={filters.sizes.includes('SIZE_7')}
+                            onChange={(e) => handleSizeChange('SIZE_7', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 7-8</span>
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 7</span>
                     </label>
                     <label className="flex items-center space-x-3 cursor-pointer group">
                         <input 
-                            type="checkbox" 
-                            id="size9-10" 
-                            name="size9-10" 
-                            value="9-10"
-                            className="w-4 h-4 rounded border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            type="radio" 
+                            id="size8" 
+                            name="size" 
+                            value="SIZE_8"
+                            checked={filters.sizes.includes('SIZE_8')}
+                            onChange={(e) => handleSizeChange('SIZE_8', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                         />
-                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 9-10</span>
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Size 8</span>
                     </label>
                 </div>
+            </div>
+
+            <div className="mb-8">
+                <button 
+                    onClick={clearFilters}
+                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                >
+                    Clear All Filters
+                </button>
             </div>
         </div>
     )

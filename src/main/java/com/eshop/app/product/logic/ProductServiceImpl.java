@@ -2,6 +2,8 @@ package com.eshop.app.product.logic;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.eshop.app.exception.NotFoundException;
@@ -13,6 +15,10 @@ import com.eshop.app.product.data.ProductRepository;
 import com.eshop.app.product.data.Size;
 import com.eshop.app.product.web.bodies.CreateProductRequest;
 import com.eshop.app.product.web.bodies.UpdateProductRequest;
+
+import org.springframework.data.domain.*;
+
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -62,6 +68,54 @@ public class ProductServiceImpl implements ProductService {
         product.setImages(request.getImages());
 
         return productRepository.save(product);
+    }
+
+        public Page<Product> getProducts(
+            Optional<String> name,
+            Optional<String> brand,
+            Optional<String> category,
+            Optional<String> material,
+            Optional<String> gemstone,
+            Optional<String> sizeParam,
+            int page,
+            int size,
+            String sortBy,
+            String sortDir
+    ) {
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Specification<Product> spec = Specification.where(null);
+
+        if (name.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("name")), "%" + name.get().toLowerCase() + "%"));
+        }
+        if (brand.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("brand")), "%" + brand.get().toLowerCase() + "%"));
+        }
+        if (category.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("category"), category.get()));
+        }
+        if (material.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("material"), material.get()));
+        }
+        if (gemstone.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("gemstone"), gemstone.get()));
+        }
+        if (sizeParam.isPresent()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("size"), sizeParam.get()));
+        }
+
+        return productRepository.findAll(spec, pageable);
     }
     
 }
