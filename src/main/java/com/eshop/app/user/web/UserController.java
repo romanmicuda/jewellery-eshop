@@ -13,12 +13,12 @@ import com.eshop.app.user.logic.AuthService;
 import com.eshop.app.user.logic.UserProviderService;
 import com.eshop.app.user.logic.UserService;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
+import com.eshop.app.user.web.bodies.FavoritesRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
 import com.eshop.app.user.web.bodies.UserResponse;
 import com.eshop.app.user.web.bodies.WishlistRequest;
-import com.eshop.app.user.web.bodies.WishlistResponse;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,6 +86,13 @@ public class UserController {
     public ResponseEntity<UserResponse> addToWishlist(@RequestBody WishlistRequest request) throws NotFoundException {
         User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
         User savedUser = userService.addToWishlist(user, request);
+        return ResponseEntity.ok(new UserResponse(savedUser));
+    }
+
+    @PostMapping("/favorites")
+    public ResponseEntity<UserResponse> toggleFavorite(@RequestBody FavoritesRequest request) throws NotFoundException {
+        User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
+        User savedUser = userService.toggleFavorite(user, request);
         return ResponseEntity.ok(new UserResponse(savedUser));
     }
 

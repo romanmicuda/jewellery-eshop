@@ -62,6 +62,7 @@ export interface UserType {
     billingAddress?: AddressRequest;
     activeNewsletterSubscriber: boolean;
     wishlist: Product[];
+    favorites: Product[];
 }
 
 export interface ChangePasswordRequest {

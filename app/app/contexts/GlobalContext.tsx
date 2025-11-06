@@ -30,6 +30,7 @@ interface GlobalContextType {
     changePageSize: (size: number) => void;
     addToWishlist: (productId: string) => void;
     user: UserType | null;
+    toggleFavorite: (productId: string) => void;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -245,6 +246,17 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         }
     }
 
+    const toggleFavorite = async (productId: string) => {
+        try {
+            const response = await secureApi.post(`/api/users/favorites`, {productId})
+            if (response.status == 200) {
+                setUser(response.data)
+            }
+        }catch (error) {
+            alert("Failed to add product to Favorites.")
+        }
+    }
+
 
     // Provide the context value
     const value: GlobalContextType = {
@@ -273,6 +285,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         product,
         addToWishlist,
         user,
+        toggleFavorite,
     };
 
     return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

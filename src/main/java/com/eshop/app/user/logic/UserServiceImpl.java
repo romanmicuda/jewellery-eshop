@@ -12,6 +12,7 @@ import com.eshop.app.product.logic.ProductService;
 import com.eshop.app.user.data.User;
 import com.eshop.app.user.data.UserRepository;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
+import com.eshop.app.user.web.bodies.FavoritesRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
@@ -77,8 +78,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addToWishlist(User user, WishlistRequest request) throws NotFoundException {
         Product product = productService.getProductById(request.getProductId());
-        if (user != null && product != null) {
+        if (user != null && product != null && !user.getWishlist().contains(product)) {
             user.getWishlist().add(product);
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User toggleFavorite(User user, FavoritesRequest request) throws NotFoundException {
+        Product product = productService.getProductById(request.getProductId());
+        if (user != null && product != null) {
+            if (user.getFavorites().contains(product)) {
+                user.getFavorites().remove(product);
+            } else {
+                user.getFavorites().add(product);
+            }
         }
         return userRepository.save(user);
     }

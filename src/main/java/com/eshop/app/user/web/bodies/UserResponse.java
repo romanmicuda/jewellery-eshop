@@ -3,10 +3,12 @@ package com.eshop.app.user.web.bodies;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.eshop.app.address.data.Address;
 import com.eshop.app.order.data.Order;
 import com.eshop.app.product.data.Product;
+import com.eshop.app.product.web.bodies.ProductResponse;
 import com.eshop.app.review.data.Review;
 import com.eshop.app.user.data.User;
 import com.eshop.app.user.data.UserAddress;
@@ -27,7 +29,8 @@ public class UserResponse {
     private String alternateMobile;
     private List<Address> addresses;
     private List<Order> orders;
-    private List<Product> wishlist;
+    private List<ProductResponse> wishlist;
+    private List<ProductResponse> favorites;
     private List<Review> reviews;
     private UserAddress shippingAddress;
     private UserAddress billingAddress;
@@ -46,7 +49,8 @@ public class UserResponse {
             this.alternateMobile = user.getAlternateMobile();
             this.addresses = user.getAddresses();
             this.orders = user.getOrders();
-            this.wishlist = user.getWishlist();
+            this.wishlist = user.getWishlist().stream().map(item -> new ProductResponse(item)).collect(Collectors.toList());
+            this.favorites = user.getFavorites().stream().map(item -> new ProductResponse(item)).collect(Collectors.toList());
             this.reviews = user.getReviews();
             this.shippingAddress = user.getShippingAddress();
             this.billingAddress = user.getBillingAddress();

@@ -76,6 +76,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
   private List<Product> wishlist;
 
+  @ManyToMany
+  @JoinTable(name = "user_favorites", 
+            joinColumns = @JoinColumn(name = "user_id"), 
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+  private List<Product> favorites;
+
   @OneToMany(mappedBy = "user")
   private List<Review> reviews;
 
@@ -87,6 +93,7 @@ public class User {
     this.addresses = new ArrayList<>();
     this.orders = new ArrayList<>();
     this.wishlist = new ArrayList<>();
+    this.favorites = new ArrayList<>();
     this.reviews = new ArrayList<>();
     this.isActiveNewsletterSubscriber = false;
     this.billingAddress = new UserAddress();
@@ -98,6 +105,7 @@ public class User {
     this.addresses = new ArrayList<>();
     this.orders = new ArrayList<>();
     this.wishlist = new ArrayList<>();
+    this.favorites = new ArrayList<>();
     this.reviews = new ArrayList<>();
     this.isActiveNewsletterSubscriber = false;
     this.billingAddress = new UserAddress();

@@ -12,8 +12,8 @@ export const ProductGrid = ({products}: {products: Product[]}) => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
             {products.length > 0 ? (
-                products.map(product => (
-                    <div key={product.id}>
+                products.map((product, index) => (
+                    <div key={`product-${product.id}-${index}`}>
                         <Link href={`/detail/${product.id}`}>
                             <ProductCard product={product} />
                         </Link>

@@ -1,9 +1,10 @@
 import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
 import { useGlobalContext } from "@/app/contexts/GlobalContext"
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 
 const ProductDetail = ({detail}: {detail: Product}) => {
-    const {addToWishlist} = useGlobalContext();
+    const {addToWishlist, toggleFavorite, user} = useGlobalContext();
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -23,6 +24,15 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                                 alt={detail.name}
                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
+
+                            <button className="absolute top-3 right-3 w-8 h-8 bg-card/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-card"
+                            onClick={()=> {toggleFavorite(detail.id)}}>
+                                {(user?.favorites?.some(item => item.id === detail.id) ?? false) ?
+                                <IoIosHeart className="w-4 h-4 text-muted-foreground hover:text-accent" />
+                                :
+                                <IoIosHeartEmpty className="w-4 h-4 text-muted-foreground hover:text-accent" />
+                                }
+                            </button>
                         </div>
                     </div>
 
