@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import com.eshop.app.address.data.Address;
 import com.eshop.app.order.data.Order;
+import com.eshop.app.product.data.Product;
 import com.eshop.app.review.data.Review;
 import com.eshop.app.user.data.User;
 import com.eshop.app.user.data.UserAddress;
-import com.eshop.app.wishlist.data.Wishlist;
 
 import lombok.Data;
 
@@ -27,7 +27,7 @@ public class UserResponse {
     private String alternateMobile;
     private List<Address> addresses;
     private List<Order> orders;
-    private List<Wishlist> wishlists;
+    private List<Product> wishlist;
     private List<Review> reviews;
     private UserAddress shippingAddress;
     private UserAddress billingAddress;
@@ -46,7 +46,7 @@ public class UserResponse {
             this.alternateMobile = user.getAlternateMobile();
             this.addresses = user.getAddresses();
             this.orders = user.getOrders();
-            this.wishlists = user.getWishlists();
+            this.wishlist = user.getWishlist();
             this.reviews = user.getReviews();
             this.shippingAddress = user.getShippingAddress();
             this.billingAddress = user.getBillingAddress();

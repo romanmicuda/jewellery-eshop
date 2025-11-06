@@ -17,9 +17,13 @@ import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
 import com.eshop.app.user.web.bodies.UserResponse;
+import com.eshop.app.user.web.bodies.WishlistRequest;
+import com.eshop.app.user.web.bodies.WishlistResponse;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/users")
@@ -76,7 +80,13 @@ public class UserController {
         User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
         User updatedUser = userService.updateNewsletterPreferences(user, request);
         return ResponseEntity.ok(new UserResponse(updatedUser));
+    }
 
+    @PostMapping("/wishlist")
+    public ResponseEntity<UserResponse> addToWishlist(@RequestBody WishlistRequest request) throws NotFoundException {
+        User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
+        User savedUser = userService.addToWishlist(user, request);
+        return ResponseEntity.ok(new UserResponse(savedUser));
     }
 
 }

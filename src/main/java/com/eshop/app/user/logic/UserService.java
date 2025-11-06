@@ -9,6 +9,7 @@ import com.eshop.app.user.web.bodies.ChangePasswordRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
+import com.eshop.app.user.web.bodies.WishlistRequest;
 
 public interface UserService {
 
@@ -17,5 +18,6 @@ public interface UserService {
     User updateShippingAddress(User user, UpdateAddressRequest request);
     User updateBillingAddress(User user, UpdateAddressRequest request);
     User updateNewsletterPreferences(User user, UpdateNewsletterPreferencesRequest request);
+    User addToWishlist(User user, WishlistRequest request) throws NotFoundException;
     
 }

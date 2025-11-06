@@ -1,7 +1,9 @@
 import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
+import { useGlobalContext } from "@/app/contexts/GlobalContext"
 
 const ProductDetail = ({detail}: {detail: Product}) => {
+    const {addToWishlist} = useGlobalContext();
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -111,6 +113,10 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                             }}
                             onMouseLeave={(e) => {
                                 e.currentTarget.style.backgroundColor = colors.neutral[50];
+                            }}
+                            onClick={() => {
+                                // Handle add to wishlist action
+                                addToWishlist(detail.id);
                             }}
                         >
                             Add to Wishlist

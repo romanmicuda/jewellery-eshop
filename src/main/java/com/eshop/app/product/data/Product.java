@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import com.eshop.app.orderdetail.data.OrderDetail;
 import com.eshop.app.review.data.Review;
-import com.eshop.app.wishlist.data.Wishlist;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,14 +44,10 @@ public class Product {
     private List<OrderDetail> orderDetails;
 
     @OneToMany(mappedBy = "product")
-    private List<Wishlist> wishlists;
-
-    @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
     public Product(){
         this.orderDetails = new ArrayList<>();
-        this.wishlists = new ArrayList<>();
         this.reviews = new ArrayList<>();
         this.images = new ArrayList<>();
     }

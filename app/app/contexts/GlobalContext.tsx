@@ -2,8 +2,7 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { api, secureApi } from '../../utils/routes';
-import axios from 'axios';
-import { Product, FilterState, SortState } from '@/utils/types';
+import { Product, FilterState, SortState, UserType } from '@/utils/types';
 
 interface GlobalContextType {
     isLoading: boolean;
@@ -29,6 +28,8 @@ interface GlobalContextType {
     nextPage: () => void;
     previousPage: () => void;
     changePageSize: (size: number) => void;
+    addToWishlist: (productId: string) => void;
+    user: UserType | null;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -57,7 +58,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         sortDir: 'asc'
     });
 
-    
+    const [user, setUser] = useState<UserType | null>(null);
+
     // Check token validity on mount
     useEffect(() => {
         const validateToken = async () => {
@@ -231,6 +233,18 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         }
     }
 
+    const addToWishlist = async (productId: string) => {
+        try {
+            const response = await secureApi.post(`/api/users/wishlist`, { productId });
+            if (response.status === 200) {
+                setUser(response.data);
+            }
+        }
+        catch (error) {
+            alert('Failed to add product to wishlist.');
+        }
+    }
+
 
     // Provide the context value
     const value: GlobalContextType = {
@@ -257,6 +271,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         changePageSize,
         fetchProduct,
         product,
+        addToWishlist,
+        user,
     };
 
     return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
