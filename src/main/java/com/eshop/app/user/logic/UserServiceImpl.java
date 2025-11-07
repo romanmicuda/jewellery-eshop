@@ -76,10 +76,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addToWishlist(User user, WishlistRequest request) throws NotFoundException {
+    public User toggleWishlist(User user, WishlistRequest request) throws NotFoundException {
         Product product = productService.getProductById(request.getProductId());
-        if (user != null && product != null && !user.getWishlist().contains(product)) {
-            user.getWishlist().add(product);
+        if (user != null && product != null) {
+            if (user.getWishlist().contains(product)) {
+                user.getWishlist().remove(product);
+            } else {
+                user.getWishlist().add(product);
+            }
         }
         return userRepository.save(user);
     }

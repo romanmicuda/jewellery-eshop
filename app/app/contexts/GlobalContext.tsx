@@ -28,9 +28,10 @@ interface GlobalContextType {
     nextPage: () => void;
     previousPage: () => void;
     changePageSize: (size: number) => void;
-    addToWishlist: (productId: string) => void;
+    toggleWishlist: (productId: string) => void;
     user: UserType | null;
     toggleFavorite: (productId: string) => void;
+    fetchUser: () => void;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -234,7 +235,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         }
     }
 
-    const addToWishlist = async (productId: string) => {
+    const toggleWishlist = async (productId: string) => {
         try {
             const response = await secureApi.post(`/api/users/wishlist`, { productId });
             if (response.status === 200) {
@@ -254,6 +255,15 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
             }
         }catch (error) {
             alert("Failed to add product to Favorites.")
+        }
+    }
+
+    const fetchUser = async () => {
+        try {
+            const response = await secureApi.get('api/users/me');
+            setUser(response.data);
+        } catch (error) {
+            console.error('Error fetching user:', error);
         }
     }
 
@@ -283,9 +293,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         changePageSize,
         fetchProduct,
         product,
-        addToWishlist,
+        toggleWishlist,
         user,
         toggleFavorite,
+        fetchUser,
     };
 
     return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

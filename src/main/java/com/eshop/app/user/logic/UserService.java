@@ -19,7 +19,7 @@ public interface UserService {
     User updateShippingAddress(User user, UpdateAddressRequest request);
     User updateBillingAddress(User user, UpdateAddressRequest request);
     User updateNewsletterPreferences(User user, UpdateNewsletterPreferencesRequest request);
-    User addToWishlist(User user, WishlistRequest request) throws NotFoundException;
+    User toggleWishlist(User user, WishlistRequest request) throws NotFoundException;
     User toggleFavorite(User user, FavoritesRequest request)throws NotFoundException;
     
 }

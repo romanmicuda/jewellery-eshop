@@ -4,7 +4,7 @@ import { useGlobalContext } from "@/app/contexts/GlobalContext"
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 
 const ProductDetail = ({detail}: {detail: Product}) => {
-    const {addToWishlist, toggleFavorite, user} = useGlobalContext();
+    const {toggleWishlist, toggleFavorite, user} = useGlobalContext();
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -126,10 +126,10 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                             }}
                             onClick={() => {
                                 // Handle add to wishlist action
-                                addToWishlist(detail.id);
+                                toggleWishlist(detail.id);
                             }}
                         >
-                            Add to Wishlist
+                             {(user?.wishlist?.some(item => item.id === detail.id) ?? false) ? 'Remove from Wishlist' : 'Add to Wishlist'}
                         </button>
                         <button
                             className="w-full py-4 px-6 rounded-lg text-lg font-semibold border transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"

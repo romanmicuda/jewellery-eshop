@@ -7,7 +7,7 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { useEffect } from "react";
 
 export default function page() {
-    const { user, fetchUser } = useDashboard();
+    const { user, fetchUser } = useGlobalContext();
 
     useEffect(() => {
         fetchUser();

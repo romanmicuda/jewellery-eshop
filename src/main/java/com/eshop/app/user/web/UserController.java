@@ -83,9 +83,9 @@ public class UserController {
     }
 
     @PostMapping("/wishlist")
-    public ResponseEntity<UserResponse> addToWishlist(@RequestBody WishlistRequest request) throws NotFoundException {
+    public ResponseEntity<UserResponse> toggleWishlist(@RequestBody WishlistRequest request) throws NotFoundException {
         User user = userProviderService.getCurrentUser().orElseThrow(() -> new NotFoundException("User not found"));
-        User savedUser = userService.addToWishlist(user, request);
+        User savedUser = userService.toggleWishlist(user, request);
         return ResponseEntity.ok(new UserResponse(savedUser));
     }
 
