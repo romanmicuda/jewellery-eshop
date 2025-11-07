@@ -30,10 +30,13 @@ class API {
         }
     }
 
-    private getHeaders(): Record<string, string> {
-        const headers: Record<string, string> = {
-            'Content-Type': 'application/json',
-        };
+    private getHeaders(isFormData: boolean = false): Record<string, string> {
+        const headers: Record<string, string> = {};
+        
+        // Don't set Content-Type for FormData, let browser set it with boundary
+        if (!isFormData) {
+            headers['Content-Type'] = 'application/json';
+        }
         
         if (this.token && this.token !== undefined && this.token !== 'undefined') {
             headers['Authorization'] = `Bearer ${this.token}`;
@@ -64,8 +67,9 @@ class API {
     public async post(path: string, body: object): Promise<any> {
         const url = new URL(this.buildUrl(path));
         console.log('POST URL:', url.toString());
+        const isFormData = body instanceof FormData;
         const response = await axios.post(url.toString(), body, {
-            headers: this.secure ? this.getHeaders() : undefined,
+            headers: this.secure ? this.getHeaders(isFormData) : undefined,
         });
         if (!response.status.toString().startsWith('2')) {
             throw new Error(`HTTP error! status: ${response.status}`);

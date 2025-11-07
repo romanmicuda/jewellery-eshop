@@ -1,7 +1,10 @@
-import { ProductDetailType } from "@/utils/types"
+import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
+import { useGlobalContext } from "@/app/contexts/GlobalContext"
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 
-const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
+const ProductDetail = ({detail}: {detail: Product}) => {
+    const {toggleWishlist, toggleFavorite, user} = useGlobalContext();
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -17,10 +20,19 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                             }}
                         >
                             <img 
-                                src={detail.image} 
+                                src={`${process.env.NEXT_PUBLIC_URL}${detail.images?.[0]}`} 
                                 alt={detail.name}
                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
+
+                            <button className="absolute top-3 right-3 w-8 h-8 bg-card/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-card"
+                            onClick={()=> {toggleFavorite(detail.id)}}>
+                                {(user?.favorites?.some(item => item.id === detail.id) ?? false) ?
+                                <IoIosHeart className="w-4 h-4 text-muted-foreground hover:text-accent" />
+                                :
+                                <IoIosHeartEmpty className="w-4 h-4 text-muted-foreground hover:text-accent" />
+                                }
+                            </button>
                         </div>
                     </div>
 
@@ -36,7 +48,7 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                                 }}
                             >
                                 <img 
-                                    src={detail.image} 
+                                    src={detail.images ? `${process.env.NEXT_PUBLIC_URL}${detail.images[index]}` : ''}
                                     alt={`${detail.name} view ${index + 1}`}
                                     className="w-full h-full object-cover"
                                 />
@@ -63,37 +75,8 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                             >
                                 ${detail.price.toLocaleString()}
                             </p>
-                            
-                            {detail.freeShipping && (
-                                <span 
-                                    className="px-3 py-1 rounded-full text-sm font-medium"
-                                    style={{ 
-                                        backgroundColor: colors.accent[100],
-                                        color: colors.accent[700]
-                                    }}
-                                >
-                                    Free Shipping
-                                </span>
-                            )}
                         </div>
                     </div>
-
-
-                    <div className="space-y-2">
-                        <p 
-                            className="text-sm font-medium"
-                            style={{ color: colors.neutral[600] }}
-                        >
-                            Color
-                        </p>
-                        <p 
-                            className="text-lg"
-                            style={{ color: colors.neutral[800] }}
-                        >
-                            {detail.color}
-                        </p>
-                    </div>
-
 
                     <div className="space-y-4">
                         <h3 
@@ -141,8 +124,31 @@ const ProductDetail = ({detail}: {detail: ProductDetailType}) => {
                             onMouseLeave={(e) => {
                                 e.currentTarget.style.backgroundColor = colors.neutral[50];
                             }}
+                            onClick={() => {
+                                // Handle add to wishlist action
+                                toggleWishlist(detail.id);
+                            }}
                         >
-                            Add to Wishlist
+                             {(user?.wishlist?.some(item => item.id === detail.id) ?? false) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                        </button>
+                        <button
+                            className="w-full py-4 px-6 rounded-lg text-lg font-semibold border transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                            style={{
+                                backgroundColor: colors.neutral[50],
+                                color: colors.primary[600],
+                                borderColor: colors.primary[300]
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = colors.primary[50];
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = colors.neutral[50];
+                            }}
+                            onClick={() => {
+                                window.location.href = `/admin/product/edit/${detail.id}`;
+                            }}
+                        >
+                            Edit Product
                         </button>
                     </div>
 

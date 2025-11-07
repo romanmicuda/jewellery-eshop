@@ -3,6 +3,7 @@ import Header from "@/components/Header"
 import { MainContent } from "@/components/MainContent";
 
 const ProductList = () => {
+
     return (
         <>
         <Header />

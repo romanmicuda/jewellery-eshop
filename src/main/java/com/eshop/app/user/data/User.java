@@ -1,6 +1,5 @@
 package com.eshop.app.user.data;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,8 +9,8 @@ import java.util.UUID;
 
 import com.eshop.app.address.data.Address;
 import com.eshop.app.order.data.Order;
+import com.eshop.app.product.data.Product;
 import com.eshop.app.review.data.Review;
-import com.eshop.app.wishlist.data.Wishlist;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -71,8 +70,17 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<Order> orders;
 
-  @OneToMany(mappedBy = "user")
-  private List<Wishlist> wishlists;
+  @ManyToMany
+  @JoinTable(name = "user_wishlist", 
+            joinColumns = @JoinColumn(name = "user_id"), 
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+  private List<Product> wishlist;
+
+  @ManyToMany
+  @JoinTable(name = "user_favorites", 
+            joinColumns = @JoinColumn(name = "user_id"), 
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+  private List<Product> favorites;
 
   @OneToMany(mappedBy = "user")
   private List<Review> reviews;
@@ -84,7 +92,8 @@ public class User {
     this.roles = new HashSet<>();
     this.addresses = new ArrayList<>();
     this.orders = new ArrayList<>();
-    this.wishlists = new ArrayList<>();
+    this.wishlist = new ArrayList<>();
+    this.favorites = new ArrayList<>();
     this.reviews = new ArrayList<>();
     this.isActiveNewsletterSubscriber = false;
     this.billingAddress = new UserAddress();
@@ -95,7 +104,8 @@ public class User {
     this.roles = new HashSet<>();
     this.addresses = new ArrayList<>();
     this.orders = new ArrayList<>();
-    this.wishlists = new ArrayList<>();
+    this.wishlist = new ArrayList<>();
+    this.favorites = new ArrayList<>();
     this.reviews = new ArrayList<>();
     this.isActiveNewsletterSubscriber = false;
     this.billingAddress = new UserAddress();

@@ -1,22 +1,35 @@
 export interface Product {
-    id: number;
+    id: string;
     name: string;
-    categories?: string[];
     description: string;
     price: number;
-    imageUrl: string;
-}
-
-export interface ProductDetailType {
-    id: number;
-    name: string;
-    color: string;
-    price: number;
-    freeShipping: boolean;
-    image: string;
-    description: string;
+    category: string;
+    brand: string;
+    material: string;
+    gemstone?: string;
+    size: string;
+    stockQuantity: number;
+    discountPercentage: number;
+    images: string[];
     reviews?: Review[];
     customerFeedback?: CustomerFeedback;
+}
+
+export interface FilterState {
+    categories: string[];
+    materials: string[];
+    gemstones: string[];
+    sizes: string[];
+    priceRange: {
+        min?: number;
+        max?: number;
+    };
+    brand?: string;
+}
+
+export interface SortState {
+    sortBy: string;
+    sortDir: 'asc' | 'desc';
 }
 
 export interface CustomerFeedback {
@@ -48,6 +61,8 @@ export interface UserType {
     shippingAddress?: AddressRequest;
     billingAddress?: AddressRequest;
     activeNewsletterSubscriber: boolean;
+    wishlist: Product[];
+    favorites: Product[];
 }
 
 export interface ChangePasswordRequest {

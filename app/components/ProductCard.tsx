@@ -1,20 +1,17 @@
 import { Product } from "@/utils/types"
 import { IoIosHeartEmpty } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa";
+import { useGlobalContext } from "@/app/contexts/GlobalContext";
 
 export const ProductCard = ({ product }: { product: Product }) => {
     return (
         <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer">
             <div className="relative overflow-hidden bg-gradient-to-br from-secondary-50 to-secondary-100">
                 <img 
-                    src={product.imageUrl} 
+                    src={`${process.env.NEXT_PUBLIC_URL || ''}${product.images?.[0] || '/placeholder-product.jpg'}`} 
                     alt={product.name}
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-
-                <button className="absolute top-3 right-3 w-8 h-8 bg-card/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-card">
-                    <IoIosHeartEmpty className="w-4 h-4 text-muted-foreground hover:text-accent" />
-                </button>
             </div>
 
             <div className="p-4">

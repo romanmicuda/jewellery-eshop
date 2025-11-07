@@ -1,8 +1,8 @@
-import { ProductDetailType } from "@/utils/types"
+import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
 import { useState } from "react"
 
-export const DescriptionReviews = ({ detail }: { detail: ProductDetailType }) => {
+export const DescriptionReviews = ({ detail }: { detail: Product }) => {
     const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description')
 
     const tabs = [

@@ -4,25 +4,30 @@ import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import com.eshop.app.exception.IllegalOperationException;
 import com.eshop.app.exception.NotFoundException;
+import com.eshop.app.product.data.Product;
+import com.eshop.app.product.logic.ProductService;
 import com.eshop.app.user.data.User;
 import com.eshop.app.user.data.UserRepository;
 import com.eshop.app.user.web.bodies.ChangePasswordRequest;
+import com.eshop.app.user.web.bodies.FavoritesRequest;
 import com.eshop.app.user.web.bodies.UpdateAccountInformationRequest;
 import com.eshop.app.user.web.bodies.UpdateAddressRequest;
 import com.eshop.app.user.web.bodies.UpdateNewsletterPreferencesRequest;
+import com.eshop.app.user.web.bodies.WishlistRequest;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+    private final ProductService productService;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder encoder, ProductService productService) {
         this.userRepository = userRepository;
         this.encoder = encoder;
+        this.productService = productService;
     }
 
     @Override
@@ -67,6 +72,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateNewsletterPreferences(User user, UpdateNewsletterPreferencesRequest request) {
         user.setActiveNewsletterSubscriber(request.isSubscribed());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User toggleWishlist(User user, WishlistRequest request) throws NotFoundException {
+        Product product = productService.getProductById(request.getProductId());
+        if (user != null && product != null) {
+            if (user.getWishlist().contains(product)) {
+                user.getWishlist().remove(product);
+            } else {
+                user.getWishlist().add(product);
+            }
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User toggleFavorite(User user, FavoritesRequest request) throws NotFoundException {
+        Product product = productService.getProductById(request.getProductId());
+        if (user != null && product != null) {
+            if (user.getFavorites().contains(product)) {
+                user.getFavorites().remove(product);
+            } else {
+                user.getFavorites().add(product);
+            }
+        }
         return userRepository.save(user);
     }
 
