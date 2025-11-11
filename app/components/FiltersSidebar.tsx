@@ -103,6 +103,43 @@ export const FiltersSidebar = () => {
                         />
                         <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Pendants</span>
                     </label>
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                        <input 
+                            type="radio" 
+                            id="anklets" 
+                            name="category" 
+                            value="anklets"
+                            checked={filters.categories.includes('ANKLETS')}
+                            onChange={(e) => handleCategoryChange('anklets', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                        />
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Anklets</span>
+                    </label>
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                        <input 
+                            type="radio"
+                            id="cufflinks"
+                            name="category"
+                            value="cufflinks"
+                            checked={filters.categories.includes('CUFFLINKS')}
+                            onChange={(e) => handleCategoryChange('cufflinks', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                        />
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Cufflinks</span>
+                    </label>
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                        <input 
+                            type="radio" 
+                            id="brooches" 
+                            name="category" 
+                            value="brooches"
+                            checked={filters.categories.includes('BROOCHES')}
+                            onChange={(e) => handleCategoryChange('brooches', e.target.checked)}
+                            className="w-4 h-4 border-2 border-secondary-300 text-primary focus:ring-2
+                                focus:ring-primary/20 focus:border-primary transition-colors"
+                        />
+                        <span className="text-secondary-foreground group-hover:text-foreground transition-colors">Brooches</span>
+                    </label>
                 </div>
             </div>
 
