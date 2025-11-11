@@ -32,6 +32,7 @@ interface GlobalContextType {
     user: UserType | null;
     toggleFavorite: (productId: string) => void;
     fetchUser: () => void;
+    search: (query: string) => void;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -53,7 +54,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         materials: [],
         gemstones: [],
         sizes: [],
-        priceRange: {}
+        priceRange: {},
+        search: ''
     });
     const [sort, setSort] = useState<SortState>({
         sortBy: 'name',
@@ -164,6 +166,9 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
             if (activeFilters.brand) {
                 params.append('brand', activeFilters.brand);
             }
+            if (activeFilters.search && activeFilters.search.trim() !== '') {
+                params.append('name', activeFilters.search.trim());
+            }
             
             const response = await secureApi.get(`/api/products?${params.toString()}`);
             setProducts(response.data.content || []);
@@ -191,7 +196,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
             materials: [],
             gemstones: [],
             sizes: [],
-            priceRange: {}
+            priceRange: {},
+            search: ''
         };
         setFilters(clearedFilters);
         fetchProducts(clearedFilters, sort, 0);
@@ -267,6 +273,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         }
     }
 
+    const search = (query: string) => {
+        updateFilters({ search: query });
+    }
+
 
     // Provide the context value
     const value: GlobalContextType = {
@@ -297,6 +307,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         user,
         toggleFavorite,
         fetchUser,
+        search,
     };
 
     return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

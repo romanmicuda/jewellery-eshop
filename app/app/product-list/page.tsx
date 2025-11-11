@@ -21,6 +21,7 @@ const ProductList = () => {
     
     useEffect(() => {
         const category = searchParams.get('category');
+        const searchQuery = searchParams.get('search');
         
         // Only run this effect once when the component mounts or URL changes
         if (!isInitialized) {
@@ -39,13 +40,23 @@ const ProductList = () => {
                 // If no category in URL, clear the category filter
                 handleCategoryChange('', false);
             }
+            
+            if (searchQuery) {
+                // Check if the current search filter already matches the query
+                if (filters.search !== searchQuery) {
+                    updateFilters({ search: searchQuery });
+                }
+            } else if (filters.search) {
+                // If no search in URL, clear the search filter
+                updateFilters({ search: '' });
+            }
         }
-    }, [searchParams?.get('category'), isInitialized, filters.categories]);
+    }, [searchParams?.get('category'), searchParams?.get('search'), isInitialized, filters.categories, filters.search]);
 
     // Reset initialization when URL changes
     useEffect(() => {
         setIsInitialized(false);
-    }, [searchParams?.get('category')]);
+    }, [searchParams?.get('category'), searchParams?.get('search')]);
 
     return (
         <>
