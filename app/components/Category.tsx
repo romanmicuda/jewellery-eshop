@@ -13,12 +13,12 @@ export const Category = () => {
         "Rings"
     ]);
     const [categoryImage, setCategoryImage] = useState<string[]>([
-        "index/category/bangles.png",
-        "index/category/chains.png",
-        "index/category/earrings.png",
-        "index/category/neckwears.png",
-        "index/category/pendants.png",
-        "index/category/rings.png"
+        "http://localhost:8080/uploads/bangles.png",
+        "http://localhost:8080/uploads/chains.png",
+        "http://localhost:8080/uploads/earrings.png",
+        "http://localhost:8080/uploads/neckwears.png",
+        "http://localhost:8080/uploads/pendants.png",
+        "http://localhost:8080/uploads/rings.png"
     ]);
     
     return (

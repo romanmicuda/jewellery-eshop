@@ -5,11 +5,14 @@ import { colors, colorUtils } from "../lib/colors";
 
 export const Trending = () => {
     const [images, setImages] = useState<string[]>([
-        "index/trending/trending1.jpg",
-        "index/trending/trending2.jpg",
-        "index/trending/trending3.jpg",
-        "index/trending/trending4.jpg",
-        "index/trending/trending5.jpg"
+        "http://localhost:8080/uploads/trending 1.png",
+        "http://localhost:8080/uploads/trending 2.png",
+        "http://localhost:8080/uploads/trending 3.png",
+        "http://localhost:8080/uploads/trending 4.png",
+        "http://localhost:8080/uploads/trending 5.png",
+        "http://localhost:8080/uploads/trending 6.png",
+        "http://localhost:8080/uploads/trending 7.png",
+        "http://localhost:8080/uploads/trending 8.png"
     ]);
     
     return (
