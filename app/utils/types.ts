@@ -25,6 +25,7 @@ export interface FilterState {
         max?: number;
     };
     brand?: string;
+    search?: string;
 }
 
 export interface SortState {

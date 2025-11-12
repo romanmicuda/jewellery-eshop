@@ -6,11 +6,15 @@ import { Button } from "./ui/button";
 
 export const NewArrivals = () => {
     const [images, setImages] = useState<string[]>([
-        "index/new-arrivals/new-arrival1.jpg",
-        "index/new-arrivals/new-arrival2.jpg",
-        "index/new-arrivals/new-arrival3.jpg",
-        "index/new-arrivals/new-arrival4.jpg",
-        "index/new-arrivals/new-arrival5.jpg"
+        "http://localhost:8080/uploads/new 1.png",
+        "http://localhost:8080/uploads/new 2.png",
+        "http://localhost:8080/uploads/new 3.png",
+        "http://localhost:8080/uploads/new 4.png",
+        "http://localhost:8080/uploads/new 5.png",
+        "http://localhost:8080/uploads/new 6.png",
+        "http://localhost:8080/uploads/new 7.png",
+        "http://localhost:8080/uploads/new 8.png",
+        "http://localhost:8080/uploads/new 9.png",
     ]);
     
     return (

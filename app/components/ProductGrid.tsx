@@ -14,9 +14,7 @@ export const ProductGrid = ({products}: {products: Product[]}) => {
             {products.length > 0 ? (
                 products.map((product, index) => (
                     <div key={`product-${product.id}-${index}`}>
-                        <Link href={`/detail/${product.id}`}>
-                            <ProductCard product={product} />
-                        </Link>
+                        <ProductCard product={product} />
                     </div>
                 ))
             ) : (

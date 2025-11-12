@@ -1,10 +1,29 @@
 import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
 import { useGlobalContext } from "@/app/contexts/GlobalContext"
+import { useCart } from "@/app/contexts/CartContext"
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+import { ShoppingCart } from "lucide-react";
+import { useState } from "react";
 
 const ProductDetail = ({detail}: {detail: Product}) => {
     const {toggleWishlist, toggleFavorite, user} = useGlobalContext();
+    const { addToCart } = useCart();
+    const [quantity, setQuantity] = useState(1);
+    const [isAdding, setIsAdding] = useState(false);
+
+    const handleAddToCart = async () => {
+        setIsAdding(true);
+        try {
+            addToCart(detail, quantity);
+            setTimeout(() => setIsAdding(false), 1000);
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            setIsAdding(false);
+        }
+    };
+
+    const discountedPrice = detail.price * (1 - detail.discountPercentage / 100);
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -69,12 +88,68 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                         </h1>
                         
                         <div className="flex items-center space-x-4">
-                            <p 
-                                className="text-3xl font-semibold"
-                                style={{ color: colors.primary[600] }}
-                            >
-                                ${detail.price.toLocaleString()}
-                            </p>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                    <p 
+                                        className="text-3xl font-semibold"
+                                        style={{ color: colors.primary[600] }}
+                                    >
+                                        ${discountedPrice.toFixed(2)}
+                                    </p>
+                                    {detail.discountPercentage > 0 && (
+                                        <>
+                                            <p 
+                                                className="text-xl text-gray-500 line-through"
+                                            >
+                                                ${detail.price.toFixed(2)}
+                                            </p>
+                                            <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
+                                                -{detail.discountPercentage}% OFF
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                                <p className="text-sm text-green-600 font-medium">Free shipping on all orders</p>
+                                <p className="text-sm" style={{ color: colors.neutral[600] }}>
+                                    Stock: {detail.stockQuantity} available
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Quantity Selector */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium" style={{ color: colors.neutral[800] }}>
+                                Quantity:
+                            </label>
+                            <div className="flex items-center space-x-3">
+                                <button
+                                    onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                                    disabled={quantity <= 1}
+                                    className="w-8 h-8 rounded border flex items-center justify-center font-semibold transition-colors disabled:opacity-50"
+                                    style={{
+                                        borderColor: colors.secondary[300],
+                                        backgroundColor: colors.neutral[50]
+                                    }}
+                                >
+                                    -
+                                </button>
+                                <span className="px-4 py-1 border rounded text-center font-medium min-w-[3rem]"
+                                    style={{ borderColor: colors.secondary[300] }}
+                                >
+                                    {quantity}
+                                </span>
+                                <button
+                                    onClick={() => quantity < detail.stockQuantity && setQuantity(quantity + 1)}
+                                    disabled={quantity >= detail.stockQuantity}
+                                    className="w-8 h-8 rounded border flex items-center justify-center font-semibold transition-colors disabled:opacity-50"
+                                    style={{
+                                        borderColor: colors.secondary[300],
+                                        backgroundColor: colors.neutral[50]
+                                    }}
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -96,19 +171,41 @@ const ProductDetail = ({detail}: {detail: Product}) => {
 
                     <div className="space-y-4 pt-6">
                         <button
-                            className="w-full py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                            onClick={handleAddToCart}
+                            disabled={isAdding || detail.stockQuantity === 0}
+                            className={`w-full py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center justify-center gap-2 ${
+                                detail.stockQuantity === 0 
+                                    ? 'opacity-50 cursor-not-allowed' 
+                                    : isAdding 
+                                        ? 'bg-green-500 text-white' 
+                                        : ''
+                            }`}
                             style={{
-                                backgroundColor: colors.primary[500],
+                                backgroundColor: detail.stockQuantity === 0 
+                                    ? colors.neutral[300] 
+                                    : isAdding 
+                                        ? '#10b981' 
+                                        : colors.primary[500],
                                 color: colors.neutral[50]
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = colors.primary[600];
+                                if (!isAdding && detail.stockQuantity > 0) {
+                                    e.currentTarget.style.backgroundColor = colors.primary[600];
+                                }
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = colors.primary[500];
+                                if (!isAdding && detail.stockQuantity > 0) {
+                                    e.currentTarget.style.backgroundColor = colors.primary[500];
+                                }
                             }}
                         >
-                            Add to Cart
+                            <ShoppingCart className="w-5 h-5" />
+                            {detail.stockQuantity === 0 
+                                ? 'Out of Stock' 
+                                : isAdding 
+                                    ? 'Added to Cart!' 
+                                    : `Add ${quantity} to Cart`
+                            }
                         </button>
                         
                         <button

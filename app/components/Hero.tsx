@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 
 export const Hero = () => {
     const [images, setImages] = useState<string[]>([
-        "index/hero/hero1.jpg",
-        "index/hero/hero2.jpg",
-        "index/hero/hero3.jpg"
+        "http://localhost:8080/uploads/hero 0.png",
+        "http://localhost:8080/uploads/hero 1.png",
+        "http://localhost:8080/uploads/hero 2.png"
     ]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [imageError, setImageError] = useState<boolean[]>([false, false, false]);

@@ -1,3 +1,5 @@
+'use client'
+
 import { Input } from "./ui/input";
 import { LuSearch } from "react-icons/lu";
 import Image from 'next/image';
@@ -7,6 +9,10 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import Link from 'next/link';
 import { NavigationMenu } from "./ui/navigation-menu";
 import { NavigationMenuDemo } from "./NavigationMenuDemo";
+import { useGlobalContext } from "@/app/contexts/GlobalContext";
+import { useCart } from "@/app/contexts/CartContext";
+import { useState, FormEvent, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
     return (
@@ -44,17 +50,52 @@ export default function Header() {
 }
 
 const SearchBar = () => {
+    const { search, filters } = useGlobalContext();
+    const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const router = useRouter();
+    
+    // Sync local state with global filters state
+    useEffect(() => {
+        setSearchQuery(filters.search || '');
+    }, [filters.search]);
+    
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            search(searchQuery.trim());
+            // Navigate to product-list page if not already there
+            if (window.location.pathname !== '/product-list') {
+                router.push('/product-list');
+            }
+        } else {
+            // If search query is empty, clear the search filter
+            search('');
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        
+        // If the input is cleared, immediately clear the search filter
+        if (value === '') {
+            search('');
+        }
+    };
+
     return (
-        <div className="relative">
+        <form onSubmit={handleSubmit} className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <LuSearch className="h-5 w-5 text-muted-foreground" />
             </div>
             <Input 
                 type="text" 
                 placeholder="What are you looking for?" 
+                value={searchQuery}
+                onChange={handleInputChange}
                 className="pl-10 pr-4 py-2 w-full rounded-full border-border focus:border-primary focus:ring-primary"
             />
-        </div>
+        </form>
     );
 }
 
@@ -85,6 +126,9 @@ const Account = () => {
 }
 
 const ShoppingCart = () => {
+    const { getTotalItems } = useCart();
+    const totalItems = getTotalItems();
+    
     return (
         <Link 
             href="/cart" 
@@ -92,6 +136,11 @@ const ShoppingCart = () => {
             aria-label="Shopping Cart"
         >
             <MdOutlineShoppingCart className="h-6 w-6" />
+            {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                    {totalItems > 99 ? '99+' : totalItems}
+                </span>
+            )}
         </Link>
     );
 }
