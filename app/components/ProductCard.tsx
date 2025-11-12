@@ -40,7 +40,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
     
     return (
         <Link href={`/detail/${product.id}`} className="block">
-            <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+            <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer h-full flex flex-col">
                 <div className="relative overflow-hidden bg-gradient-to-br from-secondary-50 to-secondary-100">
                     <img 
                         src={`${process.env.NEXT_PUBLIC_URL}${product.images?.[0] || 'placeholder-product.jpg'}`} 
@@ -97,7 +97,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
                         <button 
                             onClick={handleAddToCart}
                             disabled={isAdding || product.stockQuantity === 0}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                            className={`flex items-center gap-2 px-2 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                                 product.stockQuantity === 0 
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                                     : isAdding

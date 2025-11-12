@@ -18,7 +18,7 @@ INSERT INTO user_roles(role_id, user_id) VALUES(
 
 -- Insert 30 jewelry products
 INSERT INTO product (product_id, name, description, price, category, brand, material, gemstone, size, stock_quantity, discount_percentage, images) VALUES
-('556eadd5-f080-4bfe-9abf-d1f6de202c71', 'Diamond Engagement Ring', 'Elegant diamond solitaire ring with platinum band', 2500.00, 'RINGS', 'Tiffany & Co', 'PLATINUM', 'DIAMOND', 'SIZE_7', 15, 10.0, ARRAY['diamond_ring.png']),
+('556eadd5-f080-4bfe-9abf-d1f6de202c71', 'Diamond Engagement Ring', 'Elegant diamond solitaire ring', 2500.00, 'RINGS', 'Tiffany & Co', 'PLATINUM', 'DIAMOND', 'SIZE_7', 15, 10.0, ARRAY['diamond_ring.png']),
 ('195c47d3-10fb-45c9-bd84-27f331df0aef', 'Gold Pearl Necklace', 'Classic 18k gold necklace with cultured pearls', 890.00, 'NECKLACES', 'Mikimoto', 'GOLD', null, 'ONE_SIZE', 25, 5.0, ARRAY['gold_pearl_necklace.png']),
 ('31ebb63a-4b4b-48e5-bdf4-ca1ade894976', 'Ruby Drop Earrings', 'Stunning ruby drop earrings in white gold setting', 1200.00, 'EARRINGS', 'Cartier', 'GOLD', 'RUBY', 'ONE_SIZE', 12, 15.0, ARRAY['ruby_earrings.png']),
 ('a6af1c61-28dd-4acd-a902-d497d068258b', 'Silver Chain Bracelet', 'Modern sterling silver chain bracelet', 150.00, 'BRACELETS', 'Pandora', 'SILVER', null, 'MEDIUM', 40, 0.0, ARRAY['silver_bracelet.png']),
