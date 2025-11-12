@@ -9,4 +9,3 @@ The Jewellery E-Shop is a online platform designed to offer a seamless shopping 
 - **Order Processing:** Place orders and track their status (e.g., Delivered, Out for Delivery).
 - **Address Management:** Add and manage multiple shipping addresses.
 - **Wishlist:** Save favorite items for future purchases.
-- **Scalability & Performance:** Built for high performance and easy scaling.
