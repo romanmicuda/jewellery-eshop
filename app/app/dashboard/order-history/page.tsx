@@ -1,198 +1,181 @@
 'use client'
 
-import { DashboardNavigationTabs } from "@/components/DashboardNavigationTabs";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { secureApi } from "@/utils/routes";
+import { useEffect, useState } from "react";
+import { Package, Calendar, CreditCard, MapPin } from "lucide-react";
+import Link from "next/link";
 
-export default function page() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedFilter, setSelectedFilter] = useState("All orders");
-
-    const orderStatuses = ["All orders", "Delivered", "Out For Delivery", "Processing", "Cancelled"];
-
-    const orders = [
-        {
-            id: "ORD-001",
-            status: "Delivered",
-            deliveryDate: "Fri, 6 May 2022",
-            paymentMethod: "Cash On Delivery",
-            size: "34",
-            returnWindow: "Tue, 24 May 2022",
-            rating: null,
-            image: "/api/placeholder/60/60"
-        },
-        {
-            id: "ORD-002", 
-            status: "Exchange Delivered",
-            deliveryDate: "Fri, 6 May 2022",
-            paymentMethod: "Cash On Delivery",
-            size: "34",
-            returnWindow: "Tue, 24 May 2022",
-            rating: 3,
-            image: "/api/placeholder/60/60"
-        },
-        {
-            id: "ORD-003",
-            status: "Delivered",
-            deliveryDate: "Fri, 6 May 2022", 
-            paymentMethod: "Cash On Delivery",
-            size: "34",
-            returnWindow: "Tue, 24 May 2022",
-            rating: 5,
-            image: "/api/placeholder/60/60"
-        },
-        {
-            id: "ORD-004",
-            status: "Exchange Delivered",
-            deliveryDate: "Fri, 6 May 2022",
-            paymentMethod: "Cash On Delivery",
-            size: null,
-            returnWindow: "Tue, 24 May 2022",
-            rating: null,
-            image: "/api/placeholder/60/60"
-        }
-    ];
-
-    const filteredOrders = orders.filter(order => {
-        const matchesSearch = order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            order.status.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesFilter = selectedFilter === "All orders" || order.status.includes(selectedFilter);
-        return matchesSearch && matchesFilter;
-    });
-
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-secondary-100 p-6">
-            <div className="max-w-6xl mx-auto space-y-8">
-
-                <div className="text-center py-8">
-                    <h1 className="text-4xl font-bold text-primary-700 mb-2">My Dashboard</h1>
-                    <p className="text-neutral-600">Manage your account and preferences</p>
-                </div>
-
-                <DashboardNavigationTabs />
-
-
-                <section className="bg-card border border-secondary-200 rounded-lg shadow-sm p-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-semibold text-primary-600">My Orders</h2>
-                    </div>
-                    
-                    <div className="mb-6 space-y-4">
-                        <div className="flex flex-col md:flex-row gap-4">
-                            <div className="flex-1">
-                                <input
-                                    type="text"
-                                    placeholder="Search orders..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-neutral-800 placeholder-neutral-500 transition-colors duration-200"
-                                />
-                            </div>
-                            <div className="md:w-48">
-                                <select
-                                    value={selectedFilter}
-                                    onChange={(e) => setSelectedFilter(e.target.value)}
-                                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-neutral-800 transition-colors duration-200"
-                                >
-                                    {orderStatuses.map((status) => (
-                                        <option key={status} value={status}>{status}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4">
-                        {filteredOrders.length === 0 ? (
-                            <div className="text-center py-8">
-                                <p className="text-neutral-500">No orders found matching your criteria.</p>
-                            </div>
-                        ) : (
-                            filteredOrders.map((order) => (
-                                <div key={order.id} className="bg-neutral-50 border border-neutral-200 rounded-lg p-6 hover:shadow-md transition-shadow duration-200">
-                                    <div className="flex flex-col md:flex-row gap-4">
-
-                                        <div className="w-20 h-20 bg-neutral-200 rounded-lg flex items-center justify-center">
-                                            <div className="text-neutral-400 text-xs">Product Image</div>
-                                        </div>
-                                        
-                                        <div className="flex-1 space-y-2">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                                            order.status.includes('Delivered') 
-                                                                ? 'bg-green-100 text-green-800' 
-                                                                : order.status.includes('Out For Delivery')
-                                                                ? 'bg-blue-100 text-blue-800'
-                                                                : 'bg-yellow-100 text-yellow-800'
-                                                        }`}>
-                                                            {order.status}
-                                                        </span>
-                                                    </div>
-                                                    <p className="text-sm text-neutral-600">
-                                                        On {order.deliveryDate}
-                                                    </p>
-                                                    <p className="text-sm text-neutral-600">
-                                                        {order.paymentMethod}
-                                                    </p>
-                                                    {order.size && (
-                                                        <p className="text-sm text-neutral-600">
-                                                            Size: {order.size}
-                                                        </p>
-                                                    )}
-                                                    <p className="text-xs text-neutral-500 mt-1">
-                                                        Exchange/Return Window Closed On {order.returnWindow}
-                                                    </p>
-                                                </div>
-                                                
-                                                <div className="text-right">
-                                                    <div className="text-sm text-neutral-600 mb-1">Rate Product</div>
-                                                    <div className="flex gap-1">
-                                                        {order.rating ? (
-                                                            [...Array(5)].map((_, i) => (
-                                                                <span 
-                                                                    key={i} 
-                                                                    className={`text-lg ${
-                                                                        i < order.rating ? 'text-yellow-400' : 'text-neutral-300'
-                                                                    }`}
-                                                                >
-                                                                    ★
-                                                                </span>
-                                                            ))
-                                                        ) : (
-                                                            <button className="text-primary-600 text-sm hover:underline">
-                                                                Rate Now
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mt-4 pt-4 border-t border-neutral-200 flex gap-3">
-                                        {order.status.includes('Delivered') && (
-                                            <>
-                                                <button className="px-4 py-2 text-sm text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-50 transition-colors duration-200">
-                                                    Buy Again
-                                                </button>
-                                                <button className="px-4 py-2 text-sm text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors duration-200">
-                                                    View Details
-                                                </button>
-                                            </>
-                                        )}
-                                        {order.status.includes('Out For Delivery') && (
-                                            <button className="px-4 py-2 text-sm text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200">
-                                                Track Order
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </section>
-            </div>
-        </div>
-    );
+interface Order {
+  orderId: string;
+  orderDate: string;
+  totalAmount: number;
+  status: string;
+  orderDetails: OrderDetail[];
 }
+
+interface OrderDetail {
+  orderDetailId: string;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    images: string[];
+  };
+}
+
+const OrderHistoryPage = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await secureApi.get('/api/orders');
+      setOrders(response.data.content || []);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'processing':
+        return 'bg-blue-100 text-blue-800';
+      case 'shipped':
+        return 'bg-purple-100 text-purple-800';
+      case 'delivered':
+        return 'bg-green-100 text-green-800';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center py-16">
+            <div className="text-center">
+              <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">Loading your orders...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Order History</h1>
+          <p className="text-muted-foreground">Track and manage your order history</p>
+        </div>
+
+        {orders.length === 0 ? (
+          <Card>
+            <CardContent className="py-16">
+              <div className="text-center">
+                <Package className="h-24 w-24 mx-auto text-muted-foreground mb-4" />
+                <h2 className="text-2xl font-bold text-foreground mb-2">No orders yet</h2>
+                <p className="text-muted-foreground mb-6">When you place your first order, it will appear here.</p>
+                <Link href="/product-list">
+                  <Button>Start Shopping</Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-6">
+            {orders.map((order) => (
+              <Card key={order.orderId} className="overflow-hidden">
+                <CardHeader className="bg-muted/50">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <CardTitle className="text-lg">Order #{order.orderId.slice(-8)}</CardTitle>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          {new Date(order.orderDate).toLocaleDateString()}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <CreditCard className="h-4 w-4" />
+                          ${order.totalAmount.toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Badge className={getStatusColor(order.status)}>
+                        {order.status}
+                      </Badge>
+                      <Link href={`/dashboard/order-detail/${order.orderId}`}>
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    {order.orderDetails?.map((detail) => (
+                      <div key={detail.orderDetailId} className="flex items-center gap-4 p-4 border rounded-lg">
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_URL}${detail.product.images[0]}`}
+                          alt={detail.product.name}
+                          className="h-16 w-16 object-cover rounded"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-medium">{detail.product.name}</h4>
+                          <p className="text-sm text-muted-foreground">{detail.product.category}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-sm text-muted-foreground">
+                              Qty: {detail.quantity}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              × ${detail.unitPrice.toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-medium">${detail.subtotal.toFixed(2)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      Order tracking available
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default OrderHistoryPage;

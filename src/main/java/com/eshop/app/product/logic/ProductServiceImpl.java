@@ -117,5 +117,13 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAll(spec, pageable);
     }
+
+        @Override
+        public void updateStockQuantity(UUID productId, int newQuantity) throws NotFoundException {
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new NotFoundException("Product not found"));
+            product.setStockQuantity(newQuantity);
+            productRepository.save(product);
+        }
     
 }

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { NavigationMenu } from "./ui/navigation-menu";
 import { NavigationMenuDemo } from "./NavigationMenuDemo";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
+import { useCart } from "@/app/contexts/CartContext";
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -125,6 +126,9 @@ const Account = () => {
 }
 
 const ShoppingCart = () => {
+    const { getTotalItems } = useCart();
+    const totalItems = getTotalItems();
+    
     return (
         <Link 
             href="/cart" 
@@ -132,6 +136,11 @@ const ShoppingCart = () => {
             aria-label="Shopping Cart"
         >
             <MdOutlineShoppingCart className="h-6 w-6" />
+            {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                    {totalItems > 99 ? '99+' : totalItems}
+                </span>
+            )}
         </Link>
     );
 }
