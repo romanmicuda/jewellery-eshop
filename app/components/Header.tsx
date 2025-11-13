@@ -1,6 +1,7 @@
 'use client'
 
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { LuSearch } from "react-icons/lu";
 import Image from 'next/image';
 import { RiAccountCircleLine } from "react-icons/ri";
@@ -31,6 +32,9 @@ export default function Header() {
                     </div>
 
                     <div className="flex items-center space-x-4">
+                        <div className="hidden sm:flex items-center space-x-2">
+                            <AuthButtons />
+                        </div>
                         <Account />
                         <Favorites />
                         <ShoppingCart />
@@ -39,6 +43,9 @@ export default function Header() {
 
                 <div className="md:hidden pb-4">
                     <SearchBar />
+                    <div className="flex sm:hidden items-center justify-center space-x-2 mt-4">
+                        <AuthButtons />
+                    </div>
                 </div>
                 <div className="hidden md:flex justify-center pb-4">
                     <NavigationMenuDemo />
@@ -154,5 +161,28 @@ const Favorites = () => {
         >
             <FaRegHeart className="h-6 w-6" />
         </Link>
+    );
+}
+
+const AuthButtons = () => {
+    return (
+        <div className="flex items-center space-x-2">
+            <Button 
+                variant="outline" 
+                size="sm" 
+                asChild
+                className="text-foreground hover:text-primary"
+            >
+                <Link href="/signin">Sign In</Link>
+            </Button>
+            <Button 
+                variant="default" 
+                size="sm" 
+                asChild
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+                <Link href="/signup">Sign Up</Link>
+            </Button>
+        </div>
     );
 }
