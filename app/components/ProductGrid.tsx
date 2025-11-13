@@ -10,7 +10,7 @@ import GlobalProvider, { useGlobalContext } from "@/app/contexts/GlobalContext"
 export const ProductGrid = ({products}: {products: Product[]}) => {
  
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-4 p-4">
             {products.length > 0 ? (
                 products.map((product, index) => (
                     <div key={`product-${product.id}-${index}`}>

@@ -20,7 +20,6 @@ public class UserResponse {
     private UUID id;
     private String username;
     private String email;
-    private String password;
     private String fullName;
     private String gender;
     private Date dateOfBirth;
@@ -35,6 +34,7 @@ public class UserResponse {
     private UserAddress shippingAddress;
     private UserAddress billingAddress;
     private boolean isActiveNewsletterSubscriber;
+    private boolean isAdmin;
 
     public UserResponse(User user) {
         if (user != null) {
@@ -55,6 +55,7 @@ public class UserResponse {
             this.shippingAddress = user.getShippingAddress();
             this.billingAddress = user.getBillingAddress();
             this.isActiveNewsletterSubscriber = user.isActiveNewsletterSubscriber();
+            this.isAdmin = user.isAdmin();
         }
     }
 }

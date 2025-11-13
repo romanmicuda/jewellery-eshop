@@ -1,13 +1,13 @@
 'use client'
 
 import { DashboardProvider, useDashboard } from "@/app/contexts/DashboardContext";
-import { useGlobalContext } from "@/app/contexts/GlobalContext";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { DashboardNavigationTabs } from "@/components/DashboardNavigationTabs";
 import { ProductGrid } from "@/components/ProductGrid";
 import { useEffect } from "react";
 
 export default function page() {
-    const { user, fetchUser } = useGlobalContext();
+    const { user, fetchUser } = useAuth();
 
     useEffect(() => {
         fetchUser();

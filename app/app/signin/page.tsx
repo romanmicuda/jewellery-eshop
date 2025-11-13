@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Label } from "../../components/ui/label";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useAuth } from "../contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -14,7 +14,7 @@ type SignInFormValues = {
 
 const page = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SignInFormValues>();
-    const { signin } = useGlobalContext();
+    const { signin } = useAuth();
 
     const onSubmit = async (data: any) => {
         await signin(data);

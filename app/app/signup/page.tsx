@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useAuth } from "../contexts/AuthContext";
 import Link from "next/link";
 
 const page = () => {
@@ -18,7 +18,7 @@ const page = () => {
     } = useForm();
 
     const password = watch("password");
-    const { signup } = useGlobalContext();
+    const { signup } = useAuth();
 
     const onSubmit = async (data: any) => {
         setIsSubmitting(true);
@@ -47,7 +47,7 @@ const page = () => {
                                     className="text-sm"
                                 />
                                 {errors.email && (
-                                    <p className="text-sm text-red-500">{errors.email.message}</p>
+                                    <p className="text-sm text-red-500">{errors.email?.message as string}</p>
                                 )}
                             </div>
                             
@@ -60,7 +60,7 @@ const page = () => {
                                     className="text-sm"
                                 />
                                 {errors.username && (
-                                    <p className="text-sm text-red-500">{errors.username.message}</p>
+                                    <p className="text-sm text-red-500">{errors.username?.message as string}</p>
                                 )}
                             </div>
                             
@@ -79,7 +79,7 @@ const page = () => {
                                     className="text-sm"
                                 />
                                 {errors.password && (
-                                    <p className="text-sm text-red-500">{errors.password.message}</p>
+                                    <p className="text-sm text-red-500">{errors.password?.message as string}</p>
                                 )}
                             </div>
                             
@@ -96,7 +96,7 @@ const page = () => {
                                     className="text-sm"
                                 />
                                 {errors.confirmPassword && (
-                                    <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
+                                    <p className="text-sm text-red-500">{errors.confirmPassword?.message as string}</p>
                                 )}
                             </div>
                             
