@@ -1,6 +1,7 @@
 'use client'
 
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { LuSearch } from "react-icons/lu";
 import Image from 'next/image';
 import { RiAccountCircleLine } from "react-icons/ri";
@@ -10,6 +11,7 @@ import Link from 'next/link';
 import { NavigationMenu } from "./ui/navigation-menu";
 import { NavigationMenuDemo } from "./NavigationMenuDemo";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useCart } from "@/app/contexts/CartContext";
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -31,6 +33,9 @@ export default function Header() {
                     </div>
 
                     <div className="flex items-center space-x-4">
+                        <div className="hidden sm:flex items-center space-x-2">
+                            <AuthButtons />
+                        </div>
                         <Account />
                         <Favorites />
                         <ShoppingCart />
@@ -39,6 +44,9 @@ export default function Header() {
 
                 <div className="md:hidden pb-4">
                     <SearchBar />
+                    <div className="flex sm:hidden items-center justify-center space-x-2 mt-4">
+                        <AuthButtons />
+                    </div>
                 </div>
                 <div className="hidden md:flex justify-center pb-4">
                     <NavigationMenuDemo />
@@ -53,12 +61,12 @@ const SearchBar = () => {
     const { search, filters } = useGlobalContext();
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const router = useRouter();
-    
+
     // Sync local state with global filters state
     useEffect(() => {
         setSearchQuery(filters.search || '');
     }, [filters.search]);
-    
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
@@ -76,7 +84,7 @@ const SearchBar = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setSearchQuery(value);
-        
+
         // If the input is cleared, immediately clear the search filter
         if (value === '') {
             search('');
@@ -88,9 +96,9 @@ const SearchBar = () => {
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <LuSearch className="h-5 w-5 text-muted-foreground" />
             </div>
-            <Input 
-                type="text" 
-                placeholder="What are you looking for?" 
+            <Input
+                type="text"
+                placeholder="What are you looking for?"
                 value={searchQuery}
                 onChange={handleInputChange}
                 className="pl-10 pr-4 py-2 w-full rounded-full border-border focus:border-primary focus:ring-primary"
@@ -102,11 +110,11 @@ const SearchBar = () => {
 const Logo = () => {
     return (
         <Link href="/" className="flex items-center">
-            <img 
-                src="/jewellery-logo.png" 
-                alt="Jewelry Store Logo" 
-                height={60} 
-                width={80} 
+            <img
+                src="/jewellery-logo.png"
+                alt="Jewelry Store Logo"
+                height={60}
+                width={80}
                 className="h-12 w-auto lg:h-16"
             />
         </Link>
@@ -114,24 +122,27 @@ const Logo = () => {
 }
 
 const Account = () => {
-    return (
-        <Link 
-            href="/dashboard/account-information" 
-            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
-            aria-label="Account"
-        >
-            <RiAccountCircleLine className="h-6 w-6" />
-        </Link>
-    );
+    const { isAuthenticated } = useAuth();
+    if (isAuthenticated) {
+        return (
+            <Link
+                href="/dashboard/account-information"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
+                aria-label="Account"
+            >
+                <RiAccountCircleLine className="h-6 w-6" />
+            </Link>
+        );
+    }
 }
 
 const ShoppingCart = () => {
     const { getTotalItems } = useCart();
     const totalItems = getTotalItems();
-    
+
     return (
-        <Link 
-            href="/cart" 
+        <Link
+            href="/cart"
             className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
             aria-label="Shopping Cart"
         >
@@ -146,13 +157,58 @@ const ShoppingCart = () => {
 }
 
 const Favorites = () => {
+    const { isAuthenticated } = useAuth();
+    if (isAuthenticated) {
+        return (
+            <Link
+                href="/favorites"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
+                aria-label="Favorites"
+            >
+                <FaRegHeart className="h-6 w-6" />
+            </Link>
+        );
+    }
+}
+
+const AuthButtons = () => {
+    const { isAuthenticated, user, logout } = useAuth();
+
+    if (isAuthenticated && user) {
+        // Show user info and logout button when authenticated
+        return (
+            <div className="flex items-center space-x-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={logout}
+                    className="text-foreground hover:text-destructive"
+                >
+                    Logout
+                </Button>
+            </div>
+        );
+    }
+
+    // Show signin/signup buttons when not authenticated
     return (
-        <Link 
-            href="/favorites" 
-            className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full transition-colors duration-200"
-            aria-label="Favorites"
-        >
-            <FaRegHeart className="h-6 w-6" />
-        </Link>
+        <div className="flex items-center space-x-2">
+            <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="text-foreground hover:text-primary"
+            >
+                <Link href="/signin">Sign In</Link>
+            </Button>
+            <Button
+                variant="default"
+                size="sm"
+                asChild
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+                <Link href="/signup">Sign Up</Link>
+            </Button>
+        </div>
     );
 }

@@ -1,13 +1,15 @@
 import { Product } from "@/utils/types"
 import { colors } from "@/lib/colors"
 import { useGlobalContext } from "@/app/contexts/GlobalContext"
+import { useAuth } from "@/app/contexts/AuthContext"
 import { useCart } from "@/app/contexts/CartContext"
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 const ProductDetail = ({detail}: {detail: Product}) => {
-    const {toggleWishlist, toggleFavorite, user} = useGlobalContext();
+    const {toggleWishlist, toggleFavorite} = useGlobalContext();
+    const { user } = useAuth();
     const { addToCart } = useCart();
     const [quantity, setQuantity] = useState(1);
     const [isAdding, setIsAdding] = useState(false);
@@ -57,7 +59,7 @@ const ProductDetail = ({detail}: {detail: Product}) => {
 
 
                     <div className="flex space-x-4">
-                        {[1, 2, 3].map((_, index) => (
+                        {detail.images.map((_, index) => (
                             <div 
                                 key={index}
                                 className="w-20 h-20 rounded-md overflow-hidden cursor-pointer border transition-all duration-200 hover:shadow-md"
@@ -228,6 +230,7 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                         >
                              {(user?.wishlist?.some(item => item.id === detail.id) ?? false) ? 'Remove from Wishlist' : 'Add to Wishlist'}
                         </button>
+                        {user?.admin && (
                         <button
                             className="w-full py-4 px-6 rounded-lg text-lg font-semibold border transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                             style={{
@@ -247,7 +250,8 @@ const ProductDetail = ({detail}: {detail: Product}) => {
                         >
                             Edit Product
                         </button>
-                    </div>
+                    )}
+                </div>
 
 
                     {detail.customerFeedback && (

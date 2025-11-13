@@ -112,5 +112,9 @@ public class User {
     this.shippingAddress = new UserAddress();
   }
 
+  public boolean isAdmin() {
+    return this.roles.stream().anyMatch(role -> role.getName().name().equals("ROLE_ADMIN"));
+  }
+
 
 }

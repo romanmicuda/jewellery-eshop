@@ -3,13 +3,15 @@ import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa";
 import { ShoppingCart } from "lucide-react";
 import { useGlobalContext } from "@/app/contexts/GlobalContext";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useCart } from "@/app/contexts/CartContext";
 import { useState } from "react";
 import Link from "next/link";
 
 export const ProductCard = ({ product }: { product: Product }) => {
     const { addToCart } = useCart();
-    const { user, toggleFavorite } = useGlobalContext();
+    const { toggleFavorite } = useGlobalContext();
+    const { user } = useAuth();
     const [isAdding, setIsAdding] = useState(false);
 
     const handleAddToCart = async (e: React.MouseEvent) => {
@@ -40,7 +42,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
     
     return (
         <Link href={`/detail/${product.id}`} className="block">
-            <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer h-full flex flex-col">
+            <div className="group bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer h-full flex flex-col min-w-md">
                 <div className="relative overflow-hidden bg-gradient-to-br from-secondary-50 to-secondary-100">
                     <img 
                         src={`${process.env.NEXT_PUBLIC_URL}${product.images?.[0] || 'placeholder-product.jpg'}`} 

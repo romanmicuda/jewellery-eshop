@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "../contexts/CartContext";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useAuth, useCheckout } from "../contexts/AuthContext";
 import { Minus, Plus, X, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,8 @@ const CartPage = () => {
     isLoading 
   } = useCart();
   
-  const { user, fetchUser } = useGlobalContext();
+  const { user, fetchUser } = useAuth();
+  const { handleCheckoutRedirect } = useCheckout();
   const [showCheckout, setShowCheckout] = useState(false);
   const router = useRouter();
 
@@ -40,7 +41,10 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    setShowCheckout(true);
+    // Check if user is authenticated before proceeding to checkout
+    if (handleCheckoutRedirect()) {
+      setShowCheckout(true);
+    }
   };
 
   const onSubmitOrder = async () => {

@@ -12,7 +12,7 @@ INSERT INTO users(id, username, email, password, full_name, is_active_newsletter
 );
 
 INSERT INTO user_roles(role_id, user_id) VALUES(
-    (SELECT id FROM roles WHERE name = 'ROLE_USER'),
+    (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'),
     (SELECT id FROM users WHERE email = 'admin@admin.com')
 );
 

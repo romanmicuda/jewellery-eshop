@@ -2,15 +2,11 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { api, secureApi } from '../../utils/routes';
-import { Product, FilterState, SortState, UserType } from '@/utils/types';
+import { Product, FilterState, SortState } from '@/utils/types';
 
 interface GlobalContextType {
     isLoading: boolean;
     setIsLoading: (loading: boolean) => void;
-    signup: (data: any) => Promise<any>;
-    signin: (data: any) => Promise<any>;
-    logout: () => void;
-    checkToken: () => Promise<boolean>;
     fetchProducts: (filters?: FilterState, sort?: SortState, page?: number, size?: number) => void;
     fetchProduct: (id: string) => void;
     products: Product[];
@@ -29,9 +25,7 @@ interface GlobalContextType {
     previousPage: () => void;
     changePageSize: (size: number) => void;
     toggleWishlist: (productId: string) => void;
-    user: UserType | null;
     toggleFavorite: (productId: string) => void;
-    fetchUser: () => void;
     search: (query: string) => void;
 }
 
@@ -62,75 +56,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         sortDir: 'asc'
     });
 
-    const [user, setUser] = useState<UserType | null>(null);
-
-    // Check token validity on mount
-    useEffect(() => {
-        const validateToken = async () => {
-            if ((window.location.pathname !== '/signin') && (window.location.pathname !== '/') && 
-            (window.location.pathname !== '/signup') && (window.location.pathname !== "/product-list")) {
-                const isValid = await checkToken();
-                if (!isValid) {
-                    console.log("Token is not valid, logging out...");
-                    logout();
-                }
-            }
-        };
-        
-        validateToken();
-    }, []);
-
-    const signup = async (data: any) => {
-        setIsLoading(true);
-        try {
-            const response = await secureApi.post('/api/auth/signup', data);
-            if (response.status === 200) {
-                window.location.href = '/signin';
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const signin = async (data: any) => {
-        setIsLoading(true);
-        try {
-            const response = await secureApi.post('/api/auth/signin', data);
-            if (response.status === 200) {
-                api.setToken(response.data.token);
-                window.location.href = '/product-list';
-            }
-        } catch (error) {
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
-    const logout = () => {
-        api.clearToken();
-        window.location.href = '/signin';
-    };
-    
-    const checkToken = async (): Promise<boolean> => {
-        try {
-            // If there's no token, return false
-            const token = api.getToken();
-
-            if (!token){
-                return false;
-            }
-            
-            const response = await secureApi.post('/api/auth/verify', { token });
-            return response.status === 200
-        } catch (error) {
-            // If verification fails, log out
-            logout();
-            return false;
-        }
-    };
+    // Remove the auth-related useEffect and functions
 
     const fetchProducts = async (
         customFilters?: FilterState, 
@@ -243,10 +169,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
     const toggleWishlist = async (productId: string) => {
         try {
-            const response = await secureApi.post(`/api/users/wishlist`, { productId });
-            if (response.status === 200) {
-                setUser(response.data);
-            }
+            await secureApi.post(`/api/users/wishlist`, { productId });
+            // Wishlist updated on server, could emit an event or refresh user data if needed
         }
         catch (error) {
             alert('Failed to add product to wishlist.');
@@ -255,21 +179,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
     const toggleFavorite = async (productId: string) => {
         try {
-            const response = await secureApi.post(`/api/users/favorites`, {productId})
-            if (response.status == 200) {
-                setUser(response.data)
-            }
+            await secureApi.post(`/api/users/favorites`, {productId})
+            // Favorites updated on server, could emit an event or refresh user data if needed
         }catch (error) {
             alert("Failed to add product to Favorites.")
-        }
-    }
-
-    const fetchUser = async () => {
-        try {
-            const response = await secureApi.get('api/users/me');
-            setUser(response.data);
-        } catch (error) {
-            console.error('Error fetching user:', error);
         }
     }
 
@@ -282,10 +195,6 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     const value: GlobalContextType = {
         isLoading,
         setIsLoading,
-        signup,
-        signin,
-        logout,
-        checkToken,
         fetchProducts,
         products,
         totalPages,
@@ -304,9 +213,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
         fetchProduct,
         product,
         toggleWishlist,
-        user,
         toggleFavorite,
-        fetchUser,
         search,
     };
 

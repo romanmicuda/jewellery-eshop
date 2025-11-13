@@ -64,6 +64,7 @@ export interface UserType {
     activeNewsletterSubscriber: boolean;
     wishlist: Product[];
     favorites: Product[];
+    admin: boolean;
 }
 
 export interface ChangePasswordRequest {
